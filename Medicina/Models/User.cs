@@ -9,7 +9,7 @@ namespace Medicina.Models
         public String Password { get; set; }
         public String Name { get; set; }
         public String Surname { get; set; }
-        public String CIty { get; set; }
+        public String City { get; set; }
         public String Country { get; set; }
         public String Phone { get; set; }
         public String Profession { get; set; }
