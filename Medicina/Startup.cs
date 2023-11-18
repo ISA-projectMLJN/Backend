@@ -1,6 +1,6 @@
 namespace Medicina
 {
-    using Medicina.Models;
+    using Medicina.Context;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -33,6 +33,7 @@ namespace Medicina
             services.AddControllers();
 
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<PersonContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
         }
 
 
