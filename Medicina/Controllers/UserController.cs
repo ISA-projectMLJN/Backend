@@ -32,6 +32,3 @@ namespace Medicina.Controllers
 
     }
 }
-
-
-//https://localhost:44356/

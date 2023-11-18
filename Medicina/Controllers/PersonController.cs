@@ -3,6 +3,7 @@ using Medicina.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -42,9 +43,40 @@ namespace Medicina.Controllers
 
             return Ok("Succes from Create Method");
         }
+        [HttpGet("GetAdminById/{id}")]
+        public ActionResult<Person> GetById(int id)
+        {
+            var person = _personContext.Persons.Find(id);
 
+            if (person == null)
+            {
+                return NotFound(); 
+            }
+
+            return Ok(person);
+        }
+        [HttpPatch("UpdateAdmin")]
+        public ActionResult<Person> UpdateAdmin([FromBody] Person updatedPerson)
+        {
+            var existingPerson = _personContext.Persons.Find(updatedPerson.UserID);
+            var existingUser = _userContext.Users.Find(updatedPerson.UserID);
+
+            if (existingPerson == null || existingUser == null)
+            {
+                return NotFound();
+            }
+
+            _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
+            existingUser.Password = updatedPerson.Password;
+            existingUser.UserRole = Role.SYSTEM_ADMIN;
+            existingUser.Name = updatedPerson.Name;
+            existingUser.Surname = updatedPerson.Surname;
+
+            _userContext.Entry(existingUser).CurrentValues.SetValues(existingUser);
+            _personContext.SaveChanges();
+            _userContext.SaveChanges();
+
+            return Ok(existingPerson);
+        }
     }
 }
-
-
-//https://localhost:44356/
