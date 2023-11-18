@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jovana\\Desktop\\Faks\\IV godina\\ISA\\Project\\Backend\\Medicina\\Medicina.csproj": {}
+    "C:\\Users\\marai\\OneDrive\\Desktop\\ISA\\Backend\\Medicina\\Medicina.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jovana\\Desktop\\Faks\\IV godina\\ISA\\Project\\Backend\\Medicina\\Medicina.csproj": {
+    "C:\\Users\\marai\\OneDrive\\Desktop\\ISA\\Backend\\Medicina\\Medicina.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jovana\\Desktop\\Faks\\IV godina\\ISA\\Project\\Backend\\Medicina\\Medicina.csproj",
+        "projectUniqueName": "C:\\Users\\marai\\OneDrive\\Desktop\\ISA\\Backend\\Medicina\\Medicina.csproj",
         "projectName": "Medicina",
-        "projectPath": "C:\\Users\\Jovana\\Desktop\\Faks\\IV godina\\ISA\\Project\\Backend\\Medicina\\Medicina.csproj",
-        "packagesPath": "C:\\Users\\Jovana\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Jovana\\Desktop\\Faks\\IV godina\\ISA\\Project\\Backend\\Medicina\\obj\\",
+        "projectPath": "C:\\Users\\marai\\OneDrive\\Desktop\\ISA\\Backend\\Medicina\\Medicina.csproj",
+        "packagesPath": "C:\\Users\\marai\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marai\\OneDrive\\Desktop\\ISA\\Backend\\Medicina\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Jovana\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\marai\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

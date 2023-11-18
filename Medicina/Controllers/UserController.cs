@@ -1,4 +1,5 @@
-﻿using Medicina.Models;
+﻿using Medicina.Context;
+using Medicina.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace Medicina.Controllers
         [HttpPost("CreateUser")]
         public IActionResult Create(User user)
         {
-            user.MemberSince = DateTime.Now;
+            
             _userContext.Add(user);
             _userContext.SaveChanges();
             return Ok("Succes from Create Method");
