@@ -10,7 +10,7 @@ namespace Medicina.Context
 
         }
 
-        public DbSet<Person> Persons { get; set; }
+        public DbSet<JwtService> Logins { get; set; }
     }
 }
 

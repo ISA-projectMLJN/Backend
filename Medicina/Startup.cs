@@ -1,6 +1,7 @@
 namespace Medicina
 {
     using Medicina.Context;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,9 @@ namespace Medicina
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
+    using System;
 
     public class Startup
     {
@@ -35,6 +39,20 @@ namespace Medicina
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<PersonContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<LogInContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
+            {
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "localhost",
+                    ValidAudience = "localhost",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["jwtConfig:Key"])),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
         }
 
 

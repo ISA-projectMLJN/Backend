@@ -281,3 +281,7 @@ C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\obj\Debug\netcoreapp3.1\Medici
 C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\obj\Debug\netcoreapp3.1\Medicina.dll
 C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\obj\Debug\netcoreapp3.1\Medicina.pdb
 C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\obj\Debug\netcoreapp3.1\Medicina.genruntimeconfig.cache
+C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\Users\Lidija\Desktop\ISA\Back\Backend\Medicina\bin\Debug\netcoreapp3.1\System.Text.Json.dll

@@ -1,5 +1,6 @@
 ﻿using Medicina.Context;
 using Medicina.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace Medicina.Controllers
             _personContext = personContext;
             _userContext = userContext; 
         }
-
+        [AllowAnonymous]
         [HttpPost("CreatePerson")]
         public IActionResult Create(Person person)
         {
