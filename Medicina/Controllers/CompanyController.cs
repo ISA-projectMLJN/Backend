@@ -19,7 +19,7 @@ namespace Medicina.Controllers
         public readonly EquipmentContext _equipmentContext;
         public readonly UserContext _userContext;
 
-        public CompanyController(IConfiguration config, CompanyContext companyContext, EquipmentContext equipmentContext,UserContext userContext)
+        public CompanyController(IConfiguration config, CompanyContext companyContext, EquipmentContext equipmentContext, UserContext userContext)
         {
             _config = config;
             _companyContext = companyContext;
@@ -51,19 +51,19 @@ namespace Medicina.Controllers
 
             return Ok(company);
         }
-        
+
         [HttpPatch("UpdateCompany")]
         public ActionResult<Company> UpdateCompany([FromBody] Company updatedCompany)
         {
             var existingCompany = _companyContext.Companies.Find(updatedCompany.Id);
 
-            if (existingCompany == null )
+            if (existingCompany == null)
             {
                 return NotFound();
             }
 
             _companyContext.Entry(existingCompany).CurrentValues.SetValues(updatedCompany);
-            _companyContext.SaveChanges(); 
+            _companyContext.SaveChanges();
 
             return Ok(existingCompany);
         }
@@ -76,19 +76,12 @@ namespace Medicina.Controllers
             User user = _userContext.Users.FirstOrDefault(u => u.UserID == selectedUserId);
 
 
-
-
-
             if (ModelState.IsValid)
             {
                 if (user != null)
                 {
 
-
-
-
                     _companyContext.Add(company);
-
                     _companyContext.SaveChanges();
                     user.CompanyId = company.Id;
                     _userContext.Users.Update(user);
