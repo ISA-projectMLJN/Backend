@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Medicina.Models
 {
-    public class Person
+    public class Person : IdentityUser
     {
         [Key]
         public int UserID { get; set; }
