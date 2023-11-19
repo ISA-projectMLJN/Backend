@@ -24,7 +24,7 @@ namespace Medicina.Controllers
         [HttpPost("CreateUser")]
         public IActionResult Create(User user)
         {
-            
+
             _userContext.Add(user);
             _userContext.SaveChanges();
             return Ok("Succes from Create Method");

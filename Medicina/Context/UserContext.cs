@@ -1,5 +1,6 @@
 ﻿using Medicina.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Medicina.Context
 {
@@ -11,6 +12,7 @@ namespace Medicina.Context
         }
 
         public DbSet<User> Users { get; set; }
-        
+
+
     }
 }

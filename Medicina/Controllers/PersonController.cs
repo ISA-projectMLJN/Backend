@@ -21,7 +21,7 @@ namespace Medicina.Controllers
         {
             _config = config;
             _personContext = personContext;
-            _userContext = userContext; 
+            _userContext = userContext;
         }
 
         [HttpPost("CreatePerson")]
@@ -50,7 +50,7 @@ namespace Medicina.Controllers
 
             if (person == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
             return Ok(person);
@@ -69,6 +69,43 @@ namespace Medicina.Controllers
             _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
             existingUser.Password = updatedPerson.Password;
             existingUser.UserRole = Role.SYSTEM_ADMIN;
+            existingUser.Name = updatedPerson.Name;
+            existingUser.Surname = updatedPerson.Surname;
+
+            _userContext.Entry(existingUser).CurrentValues.SetValues(existingUser);
+            _personContext.SaveChanges();
+            _userContext.SaveChanges();
+
+            return Ok(existingPerson);
+        }
+
+        [HttpGet("GetUserById/{id}")]
+        public ActionResult<Person> GetUserById(int id)
+        {
+            var person = _personContext.Persons.Find(id);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(person);
+        }
+
+        [HttpPatch("UpdateUser")]
+        public ActionResult<Person> UpdateUser([FromBody] Person updatedPerson)
+        {
+            var existingPerson = _personContext.Persons.Find(updatedPerson.UserID);
+            var existingUser = _userContext.Users.Find(updatedPerson.UserID);
+
+            if (existingPerson == null || existingUser == null)
+            {
+                return NotFound();
+            }
+
+            _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
+            existingUser.Password = updatedPerson.Password;
+            existingUser.UserRole = Role.REGISTER_USER;
             existingUser.Name = updatedPerson.Name;
             existingUser.Surname = updatedPerson.Surname;
 
