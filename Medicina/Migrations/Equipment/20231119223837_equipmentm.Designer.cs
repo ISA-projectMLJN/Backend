@@ -3,14 +3,16 @@ using Medicina.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medicina.Migrations.Equipment
 {
     [DbContext(typeof(EquipmentContext))]
-    partial class EquipmentContextModelSnapshot : ModelSnapshot
+    [Migration("20231119223837_equipmentm")]
+    partial class equipmentm
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
