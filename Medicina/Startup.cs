@@ -12,6 +12,7 @@ namespace Medicina
     using Microsoft.IdentityModel.Tokens;
     using System.Text;
     using System;
+    using Microsoft.AspNetCore.Identity;
 
     public class Startup
     {
@@ -33,6 +34,7 @@ namespace Medicina
                 });
 
             });
+            //services.AddIdentity<PersonContext, IdentityRole>().AddEntityFrameworkStores<PersonContext>().AddDefaultTokenProviders();
 
             services.AddControllers();
 
