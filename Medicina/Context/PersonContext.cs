@@ -5,7 +5,7 @@ namespace Medicina.Context
 {
     public class PersonContext : DbContext
     {
-        public PersonContext(DbContextOptions options) : base(options)
+        public PersonContext(DbContextOptions<PersonContext> options) : base(options)
         {
 
         }

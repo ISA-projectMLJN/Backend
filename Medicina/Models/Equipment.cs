@@ -12,7 +12,6 @@ namespace Medicina.Models
         public double Rating { get; set; }
         public List<EquipmentCompany> EquipmentCompanies { get; set; }
 
-        // Prazan konstruktor
         public Equipment()
         {
         }
@@ -37,3 +36,4 @@ namespace Medicina.Models
         }
     }
 }
+

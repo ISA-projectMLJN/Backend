@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace Medicina.Controllers
 {
     [Route("api/[controller]")]
@@ -16,12 +17,14 @@ namespace Medicina.Controllers
         private readonly IConfiguration _config;
         public readonly CompanyContext _companyContext;
         public readonly EquipmentContext _equipmentContext;
+        public readonly UserContext _userContext;
 
-        public CompanyController(IConfiguration config, CompanyContext companyContext, EquipmentContext equipmentContext)
+        public CompanyController(IConfiguration config, CompanyContext companyContext, EquipmentContext equipmentContext,UserContext userContext)
         {
             _config = config;
             _companyContext = companyContext;
             _equipmentContext = equipmentContext;
+            _userContext = userContext;
         }
 
         [HttpGet("GetAllCompanies")]
@@ -63,6 +66,44 @@ namespace Medicina.Controllers
             _companyContext.SaveChanges(); 
 
             return Ok(existingCompany);
+        }
+
+        [HttpPost("RegisterCompany/{selectedUserId}")]
+        public IActionResult RegisterCompany(Company company, int selectedUserId)
+        {
+            // Extracting data from CompanyData
+
+            User user = _userContext.Users.FirstOrDefault(u => u.UserID == selectedUserId);
+
+
+
+
+
+            if (ModelState.IsValid)
+            {
+                if (user != null)
+                {
+
+
+
+
+                    _companyContext.Add(company);
+
+                    _companyContext.SaveChanges();
+                    user.CompanyId = company.Id;
+                    _userContext.Users.Update(user);
+                    _userContext.SaveChanges();
+                    return Ok("Company registered successfully.");
+                }
+                else
+                {
+                    return BadRequest("No user with CAMPAIN_ADMIN role found.");
+                }
+            }
+            else
+            {
+                return BadRequest("Invalid model state. Check your inputs.");
+            }
         }
     }
 }

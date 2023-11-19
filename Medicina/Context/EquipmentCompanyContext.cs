@@ -14,7 +14,6 @@ public class EquipmentCompanyContext : DbContext
         modelBuilder.Entity<EquipmentCompany>()
             .HasKey(ec => new { ec.EquipmentId, ec.CompanyId });
 
-        // Dodatna konfiguracija ako je potrebna.
 
         base.OnModelCreating(modelBuilder);
     }

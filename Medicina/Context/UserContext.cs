@@ -1,5 +1,8 @@
 ﻿using Medicina.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Medicina.Context
 {
@@ -11,6 +14,10 @@ namespace Medicina.Context
         }
 
         public DbSet<User> Users { get; set; }
-        
+
+        public List<User> GetUsersByRole(Role role)
+        {
+            return Users.Where(u => u.UserRole ==Role.CAMPAIN_ADMIN).ToList();
+        }
     }
 }

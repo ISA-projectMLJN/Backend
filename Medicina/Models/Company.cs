@@ -11,15 +11,13 @@ namespace Medicina.Models
         public string Description { get; set; }
         public double AverageRating { get; set; }
         public string AvailablePickupDates { get; set; }
-        public List<User> OtherAdministrators { get; set; }
+        public ICollection<User> OtherAdministrators { get; set; }
         public List<EquipmentCompany> EquipmentCompanies { get; set; }
 
-        // Prazan konstruktor
         public Company()
         {
         }
 
-        // Konstruktor koji postavlja osnovne informacije
         public Company(string name, string address, string description, double averageRating)
         {
             Name = name;
@@ -28,7 +26,7 @@ namespace Medicina.Models
             AverageRating = averageRating;
         }
 
-        // Konstruktor koji prima sve informacije
+
         public Company(string name, string address, string description, double averageRating,
             string availablePickupDates, List<User> otherAdministrators,
             List<EquipmentCompany> equipmentCompanies)
@@ -41,5 +39,6 @@ namespace Medicina.Models
             OtherAdministrators = otherAdministrators;
             EquipmentCompanies = equipmentCompanies;
         }
+
     }
 }
