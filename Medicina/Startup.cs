@@ -34,6 +34,9 @@ namespace Medicina
 
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<PersonContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<EquipmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<CompanyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<EquipmentCompanyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
         }
 
 
