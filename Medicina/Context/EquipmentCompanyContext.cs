@@ -1,5 +1,7 @@
 ﻿using Medicina.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 
 public class EquipmentCompanyContext : DbContext
 {
@@ -16,5 +18,8 @@ public class EquipmentCompanyContext : DbContext
 
 
         base.OnModelCreating(modelBuilder);
+
     }
+
+
 }

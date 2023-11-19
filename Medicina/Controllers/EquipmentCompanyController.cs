@@ -12,7 +12,10 @@ namespace Medicina.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
+
     public class EquipmentCompanyController: ControllerBase
+
+
     {
         private readonly IConfiguration _config;
         public readonly CompanyContext _companyContext;
@@ -47,6 +50,30 @@ namespace Medicina.Controllers
             }
 
             return Ok(equipmentList);
+        }
+
+
+
+        [HttpGet("GetCompanybyEquipmentId/{equipmentId}")]
+        public ActionResult<IEnumerable<Equipment>> GetCompanybyEquipmentId(int equipmentId)
+        {
+            var equipmentCompanies = _equipmentCompanyContext.EquipmentCompanies
+                .Where(ec => ec.CompanyId == equipmentId)
+                .ToList();
+
+            var companyListIds = equipmentCompanies.Select(ec => ec.CompanyId).ToList();
+            var companyList = new List<Company>();
+
+            foreach (var companyId in companyListIds)
+            {
+                var company = _companyContext.Companies.Find(equipmentId);
+                if (company != null)
+                {
+                    companyList.Add(company);
+                }
+            }
+
+            return Ok(companyList);
         }
     }
 }
