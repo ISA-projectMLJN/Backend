@@ -11,6 +11,6 @@ namespace Medicina.Context
         }
 
         public DbSet<Company> Companies { get; set; }
-       
+
     }
 }
