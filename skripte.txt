@@ -30,8 +30,8 @@ select * from EquipmentCompany;
 DROP TABLE EquipmentCompanies;
 
 -- Insert into Users table
-INSERT INTO Users (Password, UserRole, Name, Surname)
-VALUES ('adminadmin', 1, 'Admin', 'Adminovic');
+INSERT INTO Users (Password, UserRole, Name, Surname,CompanyId)
+VALUES ('adminadmin', 1, 'Admin', 'Adminovic', 0);
 
 -- Insert into Persons table
 INSERT INTO Persons (Email, Password, Name, Surname, City, Country, Phone, Profession, CompanyInfo, MemberSince)
