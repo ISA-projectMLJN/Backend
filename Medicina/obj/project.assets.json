@@ -6944,19 +6944,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marai\\.nuget\\packages\\": {}
+    "C:\\Users\\Katarina\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\marai\\OneDrive\\Desktop\\ISAA\\Backend\\Medicina\\Medicina.csproj",
+      "projectUniqueName": "C:\\Users\\Katarina\\Desktop\\Projekat\\Backend\\Medicina\\Medicina.csproj",
       "projectName": "Medicina",
-      "projectPath": "C:\\Users\\marai\\OneDrive\\Desktop\\ISAA\\Backend\\Medicina\\Medicina.csproj",
-      "packagesPath": "C:\\Users\\marai\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\marai\\OneDrive\\Desktop\\ISAA\\Backend\\Medicina\\obj\\",
+      "projectPath": "C:\\Users\\Katarina\\Desktop\\Projekat\\Backend\\Medicina\\Medicina.csproj",
+      "packagesPath": "C:\\Users\\Katarina\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Katarina\\Desktop\\Projekat\\Backend\\Medicina\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\marai\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Katarina\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
