@@ -5,7 +5,7 @@ using System.Linq;
 
 public class EquipmentCompanyContext : DbContext
 {
-    public DbSet<EquipmentCompany> EquipmentCompanies { get; set; }
+    public DbSet<EquipmentCompany> EquipmentCompany { get; set; }
 
     public EquipmentCompanyContext(DbContextOptions<EquipmentCompanyContext> options) : base(options)
     {

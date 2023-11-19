@@ -33,7 +33,7 @@ namespace Medicina.Controllers
         [HttpGet("GetEquipmentByCompanyId/{companyId}")]
         public ActionResult<IEnumerable<Equipment>> GetEquipmentByCompanyId(int companyId)
         {
-            var equipmentCompanies = _equipmentCompanyContext.EquipmentCompanies
+            var equipmentCompanies = _equipmentCompanyContext.EquipmentCompany
                 .Where(ec => ec.CompanyId == companyId)
                 .ToList();
 
@@ -42,7 +42,7 @@ namespace Medicina.Controllers
 
             foreach (var equipmentId in equipmentListIds)
             {
-                var equipment = _equipmentContext.Equipments.Find(equipmentId);
+                var equipment = _equipmentContext.Equipment.Find(equipmentId);
                 if (equipment != null)
                 {
                     equipmentList.Add(equipment);
@@ -57,7 +57,7 @@ namespace Medicina.Controllers
         [HttpGet("GetCompanybyEquipmentId/{equipmentId}")]
         public ActionResult<IEnumerable<Equipment>> GetCompanybyEquipmentId(int equipmentId)
         {
-            var equipmentCompanies = _equipmentCompanyContext.EquipmentCompanies
+            var equipmentCompanies = _equipmentCompanyContext.EquipmentCompany
                 .Where(ec => ec.CompanyId == equipmentId)
                 .ToList();
 

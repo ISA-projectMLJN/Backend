@@ -12,13 +12,13 @@ namespace Medicina.Context
 
         }
 
-        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Equipment> Equipment { get; set; }
 
       
 
         public List<Equipment> GetAll()
         {
-            var equipments = Equipments
+            var equipments = Equipment
                 .Include(e => e.EquipmentCompanies)
                 .ToList();
 
