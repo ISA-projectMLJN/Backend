@@ -30,7 +30,7 @@ namespace Medicina.Controllers
         [HttpGet("GetAllCompanies")]
         public ActionResult<IEnumerable<Company>> GetAll()
         {
-            var companies = _companyContext.Companies.ToList();
+            var companies = _companyContext.Company.ToList();
 
             if (companies == null)
             {
@@ -42,7 +42,7 @@ namespace Medicina.Controllers
         [HttpGet("GetCompanyById/{id}")]
         public ActionResult<Company> GetCompanyById(int id)
         {
-            var company = _companyContext.Companies.Find(id);
+            var company = _companyContext.Company.Find(id);
 
             if (company == null)
             {
@@ -55,7 +55,7 @@ namespace Medicina.Controllers
         [HttpPatch("UpdateCompany")]
         public ActionResult<Company> UpdateCompany([FromBody] Company updatedCompany)
         {
-            var existingCompany = _companyContext.Companies.Find(updatedCompany.Id);
+            var existingCompany = _companyContext.Company.Find(updatedCompany.Id);
 
             if (existingCompany == null)
             {

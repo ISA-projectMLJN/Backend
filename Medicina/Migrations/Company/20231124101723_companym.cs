@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.Company
 {
-    public partial class ec : Migration
+    public partial class companym : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,45 +24,6 @@ namespace Medicina.Migrations.Company
                 });
 
             migrationBuilder.CreateTable(
-                name: "Equipment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Equipment", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    UserID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Password = table.Column<string>(nullable: true),
-                    UserRole = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true),
-                    CompanyId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.UserID);
-                    table.ForeignKey(
-                        name: "FK_User_Companies_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Companies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "EquipmentCompany",
                 columns: table => new
                 {
@@ -80,10 +41,28 @@ namespace Medicina.Migrations.Company
                         principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    UserID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_EquipmentCompany_Equipment_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "Equipment",
+                        name: "FK_User_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -92,11 +71,6 @@ namespace Medicina.Migrations.Company
                 name: "IX_EquipmentCompany_CompanyId",
                 table: "EquipmentCompany",
                 column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EquipmentCompany_EquipmentId",
-                table: "EquipmentCompany",
-                column: "EquipmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_CompanyId",
@@ -111,9 +85,6 @@ namespace Medicina.Migrations.Company
 
             migrationBuilder.DropTable(
                 name: "User");
-
-            migrationBuilder.DropTable(
-                name: "Equipment");
 
             migrationBuilder.DropTable(
                 name: "Companies");

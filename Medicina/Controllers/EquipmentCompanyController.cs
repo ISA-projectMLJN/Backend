@@ -58,7 +58,7 @@ namespace Medicina.Controllers
         public ActionResult<IEnumerable<Equipment>> GetCompanybyEquipmentId(int equipmentId)
         {
             var equipmentCompanies = _equipmentCompanyContext.EquipmentCompany
-                .Where(ec => ec.CompanyId == equipmentId)
+                .Where(ec => ec.EquipmentId == equipmentId)
                 .ToList();
 
             var companyListIds = equipmentCompanies.Select(ec => ec.CompanyId).ToList();
@@ -66,7 +66,7 @@ namespace Medicina.Controllers
 
             foreach (var companyId in companyListIds)
             {
-                var company = _companyContext.Companies.Find(equipmentId);
+                var company = _companyContext.Company.Find(companyId);
                 if (company != null)
                 {
                     companyList.Add(company);

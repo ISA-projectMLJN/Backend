@@ -33,10 +33,13 @@ namespace Medicina.Controllers
             _personContext.SaveChanges();
             var user = new User
             {
+                Email = person.Email,
                 Password = person.Password, // Treba implementirati siguran način čuvanja lozinke
                 UserRole = Role.REGISTER_USER,
                 Name = person.Name,
-                Surname = person.Surname
+                Surname = person.Name,
+
+                CompanyId = 1
             };
 
             _userContext.Add(user);
@@ -62,7 +65,7 @@ namespace Medicina.Controllers
             var existingPerson = _personContext.Persons.Find(updatedPerson.UserID);
             var existingUser = _userContext.Users.Find(updatedPerson.UserID);
 
-            if (existingPerson == null || existingUser == null)
+            if (existingPerson == null)
             {
                 return NotFound();
             }

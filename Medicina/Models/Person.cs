@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Medicina.Models
 {
-    public class Person : IdentityUser
+    public class Person
     {
         [Key]
         public int UserID { get; set; }
