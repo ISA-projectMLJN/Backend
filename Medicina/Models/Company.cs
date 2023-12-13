@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Medicina.Models
 {
@@ -10,10 +11,11 @@ namespace Medicina.Models
         public string Address { get; set; }
         public string Description { get; set; }
         public double AverageRating { get; set; }
-        public string AvailablePickupDates { get; set; }
-        public ICollection<User> OtherAdministrators { get; set; }
-        public List<EquipmentCompany> EquipmentCompanies { get; set; }
-
+        public string AvailablePickupDates { get; set; } 
+        public List<User> OtherAdministrators { get; set; }
+        public List<Equipment> CompaniesEquipment { get; set; }
+        public Equipment Equipment { get; set; }
+        public int EquipmentId { get; set; }
         public Company()
         {
         }
@@ -29,7 +31,7 @@ namespace Medicina.Models
 
         public Company(string name, string address, string description, double averageRating,
             string availablePickupDates, List<User> otherAdministrators,
-            List<EquipmentCompany> equipmentCompanies)
+            List<Equipment> equipmentCompanies)
         {
             Name = name;
             Address = address;
@@ -37,7 +39,7 @@ namespace Medicina.Models
             AverageRating = averageRating;
             AvailablePickupDates = availablePickupDates;
             OtherAdministrators = otherAdministrators;
-            EquipmentCompanies = equipmentCompanies;
+            CompaniesEquipment = equipmentCompanies;
         }
 
     }

@@ -1,60 +1,65 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Medicina.Migrations.Equipment
+namespace Medicina.Migrations
 {
-    public partial class equipmentm : Migration
+    public partial class user : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Equipment",
+                name: "Company",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false)
+                    AverageRating = table.Column<double>(nullable: false),
+                    AvailablePickupDates = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.PrimaryKey("PK_Company", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "EquipmentCompany",
+                name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    UserID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    EquipmentId = table.Column<int>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    UserRole = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true),
                     CompanyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EquipmentCompany", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_EquipmentCompany_Equipment_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "Equipment",
+                        name: "FK_Users_Company_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Company",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentCompany_EquipmentId",
-                table: "EquipmentCompany",
-                column: "EquipmentId");
+                name: "IX_Users_CompanyId",
+                table: "Users",
+                column: "CompanyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EquipmentCompany");
+                name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Equipment");
+                name: "Company");
         }
     }
 }

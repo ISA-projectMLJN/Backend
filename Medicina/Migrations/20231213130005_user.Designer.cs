@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20231124105445_user")]
+    [Migration("20231213130005_user")]
     partial class user
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,26 +19,6 @@ namespace Medicina.Migrations
                 .HasAnnotation("ProductVersion", "3.1.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EquipmentCompany", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("EquipmentCompany");
-                });
 
             modelBuilder.Entity("Medicina.Models.Company", b =>
                 {
@@ -99,19 +79,10 @@ namespace Medicina.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EquipmentCompany", b =>
-                {
-                    b.HasOne("Medicina.Models.Company", null)
-                        .WithMany("EquipmentCompanies")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Medicina.Models.User", b =>
                 {
                     b.HasOne("Medicina.Models.Company", "Company")
-                        .WithMany("OtherAdministrators")
+                        .WithMany()
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.Company
+namespace Medicina.Migrations.Equipment
 {
-    [DbContext(typeof(CompanyContext))]
-    [Migration("20231124101723_companym")]
-    partial class companym
+    [DbContext(typeof(EquipmentContext))]
+    [Migration("20231213131613_equip t[")]
+    partial class equipt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,26 +19,6 @@ namespace Medicina.Migrations.Company
                 .HasAnnotation("ProductVersion", "3.1.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EquipmentCompany", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("EquipmentCompany");
-                });
 
             modelBuilder.Entity("Medicina.Models.Company", b =>
                 {
@@ -59,12 +39,46 @@ namespace Medicina.Migrations.Company
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.HasIndex("EquipmentId");
+
+                    b.ToTable("EquipmentsCompanies");
+                });
+
+            modelBuilder.Entity("Medicina.Models.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Equipment");
                 });
 
             modelBuilder.Entity("Medicina.Models.User", b =>
@@ -99,10 +113,19 @@ namespace Medicina.Migrations.Company
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("EquipmentCompany", b =>
+            modelBuilder.Entity("Medicina.Models.Company", b =>
                 {
-                    b.HasOne("Medicina.Models.Company", null)
-                        .WithMany("EquipmentCompanies")
+                    b.HasOne("Medicina.Models.Equipment", "Equipment")
+                        .WithMany("EquipmentsCompanies")
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Medicina.Models.Equipment", b =>
+                {
+                    b.HasOne("Medicina.Models.Company", "Company")
+                        .WithMany("CompaniesEquipment")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

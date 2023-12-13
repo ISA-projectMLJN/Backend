@@ -1,7 +1,5 @@
 ﻿using Medicina.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Medicina.Context
 {
@@ -13,19 +11,15 @@ namespace Medicina.Context
         }
 
         public DbSet<Equipment> Equipment { get; set; }
+        public DbSet<Company> EquipmentsCompanies { get; set; }
 
-      
-
-        public List<Equipment> GetAll()
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            var equipments = Equipment
-                .Include(e => e.EquipmentCompanies)
-                .ToList();
-
-            return equipments;
+            modelBuilder.Entity<Equipment>()
+            .HasMany(c => c.EquipmentsCompanies)
+            .WithOne(e => e.Equipment)
+            .HasForeignKey(e => e.EquipmentId)
+            .OnDelete(DeleteBehavior.Restrict);
         }
-
-
-
     }
 }

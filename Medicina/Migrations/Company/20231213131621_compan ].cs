@@ -1,13 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Medicina.Migrations
+namespace Medicina.Migrations.Company
 {
-    public partial class user : Migration
+    public partial class compan : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Company",
+                name: "CompaniesEquipment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    Type = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Rating = table.Column<double>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompaniesEquipment", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -16,35 +33,22 @@ namespace Medicina.Migrations
                     Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     AverageRating = table.Column<double>(nullable: false),
-                    AvailablePickupDates = table.Column<string>(nullable: true)
+                    AvailablePickupDates = table.Column<string>(nullable: true),
+                    EquipmentId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Company", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EquipmentCompany",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EquipmentId = table.Column<int>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquipmentCompany", x => x.Id);
+                    table.PrimaryKey("PK_Companies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_EquipmentCompany_Company_CompanyId",
-                        column: x => x.CompanyId,
-                        principalTable: "Company",
+                        name: "FK_Companies_CompaniesEquipment_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "CompaniesEquipment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     UserID = table.Column<int>(nullable: false)
@@ -58,36 +62,53 @@ namespace Medicina.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.PrimaryKey("PK_User", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_Users_Company_CompanyId",
+                        name: "FK_User_Companies_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "Company",
+                        principalTable: "Companies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentCompany_CompanyId",
-                table: "EquipmentCompany",
+                name: "IX_Companies_EquipmentId",
+                table: "Companies",
+                column: "EquipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompaniesEquipment_CompanyId",
+                table: "CompaniesEquipment",
                 column: "CompanyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_CompanyId",
-                table: "Users",
+                name: "IX_User_CompanyId",
+                table: "User",
                 column: "CompanyId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_CompaniesEquipment_Companies_CompanyId",
+                table: "CompaniesEquipment",
+                column: "CompanyId",
+                principalTable: "Companies",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "EquipmentCompany");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Companies_CompaniesEquipment_EquipmentId",
+                table: "Companies");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "Company");
+                name: "CompaniesEquipment");
+
+            migrationBuilder.DropTable(
+                name: "Companies");
         }
     }
 }
