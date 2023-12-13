@@ -10,9 +10,12 @@ namespace Medicina.Models
         public string Type { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }
+        [NotMapped]
         public List<Company> EquipmentsCompanies { get; set; }
-        public Company Company { get; set; }
-        public int CompanyId { get; set; }
+        [NotMapped]
+        public Company? Company { get; set; }
+        [NotMapped]
+        public int? CompanyId { get; set; }
 
         public Equipment()
         {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.Person
+namespace Medicina.Migrations
 {
     [DbContext(typeof(PersonContext))]
     partial class PersonContextModelSnapshot : ModelSnapshot

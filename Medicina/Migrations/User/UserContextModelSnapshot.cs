@@ -3,16 +3,14 @@ using Medicina.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.Company
+namespace Medicina.Migrations.User
 {
-    [DbContext(typeof(CompanyContext))]
-    [Migration("20231213131621_compan ]")]
-    partial class compan
+    [DbContext(typeof(UserContext))]
+    partial class UserContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,46 +37,12 @@ namespace Medicina.Migrations.Company
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EquipmentId");
-
-                    b.ToTable("Companies");
-                });
-
-            modelBuilder.Entity("Medicina.Models.Equipment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("CompaniesEquipment");
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("Medicina.Models.User", b =>
@@ -110,25 +74,7 @@ namespace Medicina.Migrations.Company
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("Medicina.Models.Company", b =>
-                {
-                    b.HasOne("Medicina.Models.Equipment", "Equipment")
-                        .WithMany("EquipmentsCompanies")
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Medicina.Models.Equipment", b =>
-                {
-                    b.HasOne("Medicina.Models.Company", "Company")
-                        .WithMany("CompaniesEquipment")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Medicina.Models.User", b =>

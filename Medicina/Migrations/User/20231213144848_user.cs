@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Medicina.Migrations
+namespace Medicina.Migrations.User
 {
     public partial class user : Migration
     {

@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Medicina.Migrations.Company
+namespace Medicina.Migrations.Equipment
 {
-    public partial class compan : Migration
+    public partial class equip : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CompaniesEquipment",
+                name: "Equipment",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -15,16 +15,15 @@ namespace Medicina.Migrations.Company
                     Name = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: false)
+                    Rating = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CompaniesEquipment", x => x.Id);
+                    table.PrimaryKey("PK_Equipment", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Companies",
+                name: "EquipmentsCompanies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -34,17 +33,17 @@ namespace Medicina.Migrations.Company
                     Description = table.Column<string>(nullable: true),
                     AverageRating = table.Column<double>(nullable: false),
                     AvailablePickupDates = table.Column<string>(nullable: true),
-                    EquipmentId = table.Column<int>(nullable: false)
+                    EquipmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Companies", x => x.Id);
+                    table.PrimaryKey("PK_EquipmentsCompanies", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Companies_CompaniesEquipment_EquipmentId",
+                        name: "FK_EquipmentsCompanies_Equipment_EquipmentId",
                         column: x => x.EquipmentId,
-                        principalTable: "CompaniesEquipment",
+                        principalTable: "Equipment",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,51 +63,34 @@ namespace Medicina.Migrations.Company
                 {
                     table.PrimaryKey("PK_User", x => x.UserID);
                     table.ForeignKey(
-                        name: "FK_User_Companies_CompanyId",
+                        name: "FK_User_EquipmentsCompanies_CompanyId",
                         column: x => x.CompanyId,
-                        principalTable: "Companies",
+                        principalTable: "EquipmentsCompanies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Companies_EquipmentId",
-                table: "Companies",
+                name: "IX_EquipmentsCompanies_EquipmentId",
+                table: "EquipmentsCompanies",
                 column: "EquipmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CompaniesEquipment_CompanyId",
-                table: "CompaniesEquipment",
-                column: "CompanyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_CompanyId",
                 table: "User",
                 column: "CompanyId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_CompaniesEquipment_Companies_CompanyId",
-                table: "CompaniesEquipment",
-                column: "CompanyId",
-                principalTable: "Companies",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Companies_CompaniesEquipment_EquipmentId",
-                table: "Companies");
-
             migrationBuilder.DropTable(
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "CompaniesEquipment");
+                name: "EquipmentsCompanies");
 
             migrationBuilder.DropTable(
-                name: "Companies");
+                name: "Equipment");
         }
     }
 }

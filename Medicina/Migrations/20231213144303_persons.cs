@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Medicina.Migrations.Person
+namespace Medicina.Migrations
 {
     public partial class persons : Migration
     {

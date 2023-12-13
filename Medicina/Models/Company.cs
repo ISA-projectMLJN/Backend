@@ -13,9 +13,12 @@ namespace Medicina.Models
         public double AverageRating { get; set; }
         public string AvailablePickupDates { get; set; } 
         public List<User> OtherAdministrators { get; set; }
+        [NotMapped]
         public List<Equipment> CompaniesEquipment { get; set; }
-        public Equipment Equipment { get; set; }
-        public int EquipmentId { get; set; }
+        [NotMapped]
+        public Equipment? Equipment { get; set; }
+        [NotMapped]
+        public int? EquipmentId { get; set; }
         public Company()
         {
         }
