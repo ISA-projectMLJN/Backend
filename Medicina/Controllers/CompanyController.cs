@@ -30,7 +30,7 @@ namespace Medicina.Controllers
         [HttpGet("GetAllCompanies")]
         public ActionResult<IEnumerable<Company>> GetAll()
         {
-            var companies = _companyContext.Company.ToList();
+            var companies = _companyContext.Companies.ToList();
 
             if (companies == null)
             {
@@ -42,7 +42,21 @@ namespace Medicina.Controllers
         [HttpGet("GetCompanyById/{id}")]
         public ActionResult<Company> GetCompanyById(int id)
         {
-            var company = _companyContext.Company.Find(id);
+            var company = _companyContext.Companies.Find(id);
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(company);
+        }
+
+        [HttpGet("GetCompanybyEquipmentId/{id}")]
+        public ActionResult<Company> GetCompanybyEquipmentId(int id)
+        {
+            var company = _companyContext.Companies.Find(id);
+
 
             if (company == null)
             {
@@ -55,7 +69,7 @@ namespace Medicina.Controllers
         [HttpPatch("UpdateCompany")]
         public ActionResult<Company> UpdateCompany([FromBody] Company updatedCompany)
         {
-            var existingCompany = _companyContext.Company.Find(updatedCompany.Id);
+            var existingCompany = _companyContext.Companies.Find(updatedCompany.Id);
 
             if (existingCompany == null)
             {
@@ -70,9 +84,7 @@ namespace Medicina.Controllers
 
         [HttpPost("RegisterCompany/{selectedUserId}")]
         public IActionResult RegisterCompany(Company company, int selectedUserId)
-        {
-            // Extracting data from CompanyData
-
+        { 
             User user = _userContext.Users.FirstOrDefault(u => u.UserID == selectedUserId);
 
 

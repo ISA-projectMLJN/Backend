@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Equipment
 {
     [DbContext(typeof(EquipmentContext))]
-    [Migration("20231124101532_equipmentm")]
-    partial class equipmentm
+    [Migration("20231214170034_equip  ")]
+    partial class equip
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,26 +19,6 @@ namespace Medicina.Migrations.Equipment
                 .HasAnnotation("ProductVersion", "3.1.22")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EquipmentCompany", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.ToTable("EquipmentCompany");
-                });
 
             modelBuilder.Entity("Medicina.Models.Equipment", b =>
                 {
@@ -62,15 +42,6 @@ namespace Medicina.Migrations.Equipment
                     b.HasKey("Id");
 
                     b.ToTable("Equipment");
-                });
-
-            modelBuilder.Entity("EquipmentCompany", b =>
-                {
-                    b.HasOne("Medicina.Models.Equipment", null)
-                        .WithMany("EquipmentCompanies")
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

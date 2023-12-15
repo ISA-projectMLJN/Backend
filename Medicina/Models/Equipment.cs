@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Medicina.Models
 {
@@ -10,13 +10,16 @@ namespace Medicina.Models
         public string Type { get; set; }
         public string Description { get; set; }
         public double Rating { get; set; }
-        public List<EquipmentCompany> EquipmentCompanies { get; set; }
+        [NotMapped]
+        public List<Company> EquipmentsCompanies { get; set; }
+        [NotMapped]
+        public Company? Company { get; set; }
+        public int? CompanyId { get; set; }
 
         public Equipment()
         {
         }
 
-        // Konstruktor koji postavlja osnovne informacije
         public Equipment(string name, string type, string description, double rating)
         {
             Name = name;
@@ -25,15 +28,13 @@ namespace Medicina.Models
             Rating = rating;
         }
 
-        // Konstruktor koji prima sve informacije, uključujući i listu EquipmentCompany
-        public Equipment(string name, string type, string description, double rating, List<EquipmentCompany> equipmentCompanies)
+        public Equipment(string name, string type, string description, double rating, List<Company> equipmentCompanies)
         {
             Name = name;
             Type = type;
             Description = description;
             Rating = rating;
-            EquipmentCompanies = equipmentCompanies;
+            EquipmentsCompanies = equipmentCompanies;
         }
     }
 }
-

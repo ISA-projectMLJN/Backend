@@ -16,42 +16,40 @@ namespace Medicina.Controllers
         private readonly IConfiguration _config;
         public readonly EquipmentContext _equipmentContext;
         public readonly CompanyContext _companyContext;
-        public readonly EquipmentCompanyContext _equipmentCompanyContext;
 
-        public EquipmentController(IConfiguration config, EquipmentContext equipmentContext, EquipmentCompanyContext equipmentCompanyContext,CompanyContext companyContext)
+        public EquipmentController(IConfiguration config, EquipmentContext equipmentContext, CompanyContext companyContext)
         {
             _config = config;
             _equipmentContext = equipmentContext;
-            _equipmentCompanyContext = equipmentCompanyContext;
             _companyContext = companyContext;
-        }
+        }      
 
-      
-
-    [HttpGet("GetAllEquipments")]
-    public ActionResult<IEnumerable<Equipment>> GetAll()
-    {
-        var equipments = _equipmentContext.Equipment.ToList();
-
-        if (equipments == null)
+        [HttpGet("GetAllEquipments")]
+        public ActionResult<IEnumerable<Equipment>> GetAll()
         {
-            return NotFound();
+            var equipments = _equipmentContext.Equipment.ToList();
+
+            if (equipments == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(equipments);
         }
-
-        return Ok(equipments);
-    }
-    [HttpGet("GetEquipmentById/{id}")]
-    public ActionResult<Company> GetEquipmentById(int id)
-    {
-        var equipment = _equipmentContext.Equipment.Find(id);
-
-        if (equipment == null)
+        [HttpGet("GetCompanyEquipmentById/{id}")]
+        public ActionResult<Company> GetCompanyEquipmentById(int id)
         {
-            return NotFound();
+            var equipmentList = _equipmentContext.Equipment.Where(e => e.CompanyId == id).ToList();
+
+
+
+
+            if (equipmentList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(equipmentList);
         }
-
-        return Ok(equipment);
     }
-
-}
 }
