@@ -7,6 +7,9 @@
 /.vs/Medicina/FileContentIndex/51c719e4-4067-4647-a10c-77c407e6ae7e.vsidx
 /.vs/Medicina/FileContentIndex/a2d7828f-6073-4c7f-8678-08f6ca78d16b.vsidx
 /.vs/Medicina/FileContentIndex/d0d684e3-531a-46e5-a0ff-d7cd868b7406.vsidx
+*.vsidx
+/Medicina/obj/Debug/netcoreapp3.1/Medicina.assets.cache
+/Medicina/obj/Debug/netcoreapp3.1/Medicina.GeneratedMSBuildEditorConfig.editorconfig
 /.vs/Medicina/FileContentIndex/0704309b-ad93-4f0b-9285-717f54855ade.vsidx
 *.vsidx
 /.vs/Medicina/FileContentIndex/81db1f02-54c3-4f55-8e6a-3e4d93f746ad.vsidx
