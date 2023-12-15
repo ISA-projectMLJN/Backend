@@ -10,7 +10,10 @@ namespace Medicina.Context
 
         }
 
-        public DbSet<Company> Company { get; set; }
+        public DbSet<Company> Companies { get; set; } 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        }
     }
 }
