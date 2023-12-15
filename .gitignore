@@ -14,3 +14,15 @@
 /.vs/Medicina/v17/.suo
 /.vs/ProjectEvaluation/medicina.metadata.v7.bin
 /.vs/ProjectEvaluation/medicina.projects.v7.bin
+/Medicina/bin/Debug/netcoreapp3.1/Medicina.dll
+/Medicina/bin/Debug/netcoreapp3.1/Medicina.pdb
+/.vs/Medicina/config/applicationhost.config
+/.vs/Medicina/DesignTimeBuild/.dtbcache.v2
+/Medicina/obj/Medicina.csproj.nuget.dgspec.json
+/Medicina/obj/project.assets.json
+/Medicina/obj/project.nuget.cache
+*.cache
+*.txt
+*.dll
+*.editorconfig
+*.pdb
