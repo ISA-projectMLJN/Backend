@@ -10,3 +10,11 @@
 *.vsidx
 /Medicina/obj/Debug/netcoreapp3.1/Medicina.assets.cache
 /Medicina/obj/Debug/netcoreapp3.1/Medicina.GeneratedMSBuildEditorConfig.editorconfig
+/.vs/Medicina/DesignTimeBuild/.dtbcache.v2
+/.vs/Medicina/v17/.futdcache.v2
+/.vs/Medicina/v17/.suo
+/.vs/ProjectEvaluation/medicina.metadata.v7.bin
+/.vs/ProjectEvaluation/medicina.projects.v7.bin
+/Medicina/obj/Medicina.csproj.nuget.dgspec.json
+/Medicina/obj/project.assets.json
+/Medicina/obj/project.nuget.cache
