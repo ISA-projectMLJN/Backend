@@ -38,41 +38,15 @@ namespace Medicina.Migrations.Company
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EquipmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Companies");
-                });
-
-            modelBuilder.Entity("Medicina.Models.Equipment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("CompaniesEquipment");
                 });
 
             modelBuilder.Entity("Medicina.Models.User", b =>
@@ -107,17 +81,9 @@ namespace Medicina.Migrations.Company
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("Medicina.Models.Equipment", b =>
-                {
-                    b.HasOne("Medicina.Models.Company", "Company")
-                        .WithMany("CompaniesEquipment")
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
             modelBuilder.Entity("Medicina.Models.User", b =>
                 {
-                    b.HasOne("Medicina.Models.Company", "Company")
+                    b.HasOne("Medicina.Models.Company", null)
                         .WithMany("OtherAdministrators")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)

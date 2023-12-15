@@ -11,15 +11,9 @@ namespace Medicina.Context
         }
 
         public DbSet<Equipment> Equipment { get; set; }
-        public DbSet<Company> EquipmentsCompanies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Equipment>()
-            .HasMany(c => c.EquipmentsCompanies)
-            .WithOne(e => e.Equipment)
-            .HasForeignKey(e => e.EquipmentId)
-            .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

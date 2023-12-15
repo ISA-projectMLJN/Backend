@@ -36,17 +36,20 @@ namespace Medicina.Controllers
 
             return Ok(equipments);
         }
-        [HttpGet("GetEquipmentById/{id}")]
-        public ActionResult<Company> GetEquipmentById(int id)
+        [HttpGet("GetCompanyEquipmentById/{id}")]
+        public ActionResult<Company> GetCompanyEquipmentById(int id)
         {
-            var equipment = _equipmentContext.Equipment.Find(id);
+            var equipmentList = _equipmentContext.Equipment.Where(e => e.CompanyId == id).ToList();
 
-            if (equipment == null)
+
+
+
+            if (equipmentList == null)
             {
                 return NotFound();
             }
 
-            return Ok(equipment);
+            return Ok(equipmentList);
         }
     }
 }

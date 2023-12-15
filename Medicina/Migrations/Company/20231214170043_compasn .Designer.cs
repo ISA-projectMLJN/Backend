@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.User
+namespace Medicina.Migrations.Company
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20231213144848_user")]
-    partial class user
+    [DbContext(typeof(CompanyContext))]
+    [Migration("20231214170043_compasn ")]
+    partial class compasn
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace Medicina.Migrations.User
 
                     b.HasKey("Id");
 
-                    b.ToTable("Company");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("Medicina.Models.User", b =>
@@ -76,12 +76,12 @@ namespace Medicina.Migrations.User
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Medicina.Models.User", b =>
                 {
-                    b.HasOne("Medicina.Models.Company", "Company")
+                    b.HasOne("Medicina.Models.Company", null)
                         .WithMany("OtherAdministrators")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)

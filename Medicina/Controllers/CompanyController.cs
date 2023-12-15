@@ -52,6 +52,20 @@ namespace Medicina.Controllers
             return Ok(company);
         }
 
+        [HttpGet("GetCompanybyEquipmentId/{id}")]
+        public ActionResult<Company> GetCompanybyEquipmentId(int id)
+        {
+            var company = _companyContext.Companies.Find(id);
+
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(company);
+        }
+
         [HttpPatch("UpdateCompany")]
         public ActionResult<Company> UpdateCompany([FromBody] Company updatedCompany)
         {

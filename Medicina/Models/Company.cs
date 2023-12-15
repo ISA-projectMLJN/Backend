@@ -17,7 +17,6 @@ namespace Medicina.Models
         public List<Equipment> CompaniesEquipment { get; set; }
         [NotMapped]
         public Equipment? Equipment { get; set; }
-        [NotMapped]
         public int? EquipmentId { get; set; }
         public Company()
         {
