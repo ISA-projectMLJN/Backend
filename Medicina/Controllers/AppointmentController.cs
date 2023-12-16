@@ -2,7 +2,9 @@
 using Medicina.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 
 namespace Medicina.Controllers
@@ -15,11 +17,13 @@ namespace Medicina.Controllers
         public readonly AppointmentContext _appointmentContext;
         public readonly EquipmentContext _equipmentContext;
         public readonly CompanyContext _companyContext;
-        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext)
+        public readonly ReservationContext _reservationContext;
+        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
             _companyContext = companyContext;
+            _reservationContext = reservationContext;
         }
         [HttpGet("GetAppointmentsByCompanyId/{id}")]
         public ActionResult<Appointment> GetAppointmentsByCompanyId(int id)
@@ -45,5 +49,30 @@ namespace Medicina.Controllers
 
             return CreatedAtAction(nameof(GetAppointmentsByCompanyId), new { id = newAppointment.CompanyId }, newAppointment);
         }
+        [HttpPatch("ReserveAppointment/{id}")]
+        public IActionResult ReserveAppointment(int id, [FromBody] int userId)
+        {
+            Console.WriteLine($"Received id: {id}, userId: {userId}");
+
+            var appointment = _appointmentContext.Appointments.Find(id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            // Assuming there's a property like UserId in your Appointment model
+            //appointment.UserId = userId;
+
+            // Set the appointment as reserved
+            appointment.IsReserved = true;
+            //dodavanje rezervacije
+            var reservation = new Reservation(userId, 0, false);
+            _reservationContext.Add(reservation);
+            _appointmentContext.Entry(appointment).State = EntityState.Modified;
+            _appointmentContext.SaveChanges();
+
+            return Ok(appointment);
+        }
+
     }
 }

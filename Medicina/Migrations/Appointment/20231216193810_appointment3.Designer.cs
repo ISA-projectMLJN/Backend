@@ -4,14 +4,16 @@ using Medicina.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medicina.Migrations.Appointment
 {
     [DbContext(typeof(AppointmentContext))]
-    partial class AppointmentContextModelSnapshot : ModelSnapshot
+    [Migration("20231216193810_appointment3")]
+    partial class appointment3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,9 +38,6 @@ namespace Medicina.Migrations.Appointment
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Duration")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsEquipmentTaken")
