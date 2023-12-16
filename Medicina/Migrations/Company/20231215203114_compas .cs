@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.Company
 {
-    public partial class compasn : Migration
+    public partial class compas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,8 @@ namespace Medicina.Migrations.Company
                     Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     AverageRating = table.Column<double>(nullable: false),
-                    AvailablePickupDates = table.Column<string>(nullable: true)
+                    AvailablePickupDates = table.Column<string>(nullable: true),
+                    EquipmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

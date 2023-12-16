@@ -59,6 +59,7 @@ namespace Medicina.Controllers
 
             return Ok(person);
         }
+
         [HttpPatch("UpdateAdmin")]
         public ActionResult<Person> UpdateAdmin([FromBody] Person updatedPerson)
         {
@@ -83,7 +84,7 @@ namespace Medicina.Controllers
             return Ok(existingPerson);
         }
 
-        [HttpGet("GetUserById/{id}")]
+        [HttpGet("GetRegisteredUserById/{id}")]
         public ActionResult<Person> GetUserById(int id)
         {
             var person = _personContext.Persons.Find(id);
@@ -96,20 +97,20 @@ namespace Medicina.Controllers
             return Ok(person);
         }
 
-        [HttpPatch("UpdateUser")]
-        public ActionResult<Person> UpdateUser([FromBody] Person updatedPerson)
+        [HttpPatch("UpdateRegisteredUser")]
+        public ActionResult<Person> UpdateRegisteredUser([FromBody] Person updatedPerson)
         {
             var existingPerson = _personContext.Persons.Find(updatedPerson.UserID);
             var existingUser = _userContext.Users.Find(updatedPerson.UserID);
 
-            if (existingPerson == null || existingUser == null)
+            if (existingPerson == null)
             {
                 return NotFound();
             }
 
             _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
             existingUser.Password = updatedPerson.Password;
-            existingUser.UserRole = Role.REGISTER_USER;
+            existingUser.UserRole = Role.SYSTEM_ADMIN;
             existingUser.Name = updatedPerson.Name;
             existingUser.Surname = updatedPerson.Surname;
 
