@@ -33,8 +33,7 @@ namespace Medicina
                     builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
                 });
 
-            });
-            //services.AddIdentity<PersonContext, IdentityRole>().AddEntityFrameworkStores<PersonContext>().AddDefaultTokenProviders();
+            }); 
 
             services.AddControllers();
 
@@ -57,6 +56,7 @@ namespace Medicina
             });
             services.AddDbContext<EquipmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<CompanyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<AppointmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
         }
 
 
