@@ -20,13 +20,15 @@ namespace Medicina.Controllers
         public readonly CompanyContext _companyContext;
         public readonly ReservationContext _reservationContext;
         public readonly UserContext _userContext;
-        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext)
+        public readonly PersonContext _presonContext;
+        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
             _companyContext = companyContext;
             _reservationContext = reservationContext;
             _userContext = userContext; 
+            _presonContext = personContext;
         }
         [HttpGet("GetAppointmentsByCompanyId/{id}")]
         public ActionResult<Appointment> GetAppointmentsByCompanyId(int id)
@@ -45,7 +47,11 @@ namespace Medicina.Controllers
             if (newAppointment == null)
             {
                 return BadRequest();
-            } 
+            }
+
+            var admin = _presonContext.Persons.Find(newAppointment.AdministratorsId);
+            newAppointment.AdministratorsName = admin.Name;
+            newAppointment.AdministratorsSurname = admin.Surname;
 
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();
