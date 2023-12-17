@@ -15,6 +15,7 @@ namespace Medicina.Models
         [NotMapped]
         public Company? Company { get; set; }
         public int? CompanyId { get; set; }
+        public int Count { get; set; }
 
         public Equipment()
         {
@@ -28,13 +29,14 @@ namespace Medicina.Models
             Rating = rating;
         }
 
-        public Equipment(string name, string type, string description, double rating, List<Company> equipmentCompanies)
+        public Equipment(string name, string type, string description, double rating, List<Company> equipmentCompanies, int count)
         {
             Name = name;
             Type = type;
             Description = description;
             Rating = rating;
             EquipmentsCompanies = equipmentCompanies;
+            Count = count;
         }
     }
 }

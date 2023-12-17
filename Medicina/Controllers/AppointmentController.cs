@@ -50,9 +50,9 @@ namespace Medicina.Controllers
             return CreatedAtAction(nameof(GetAppointmentsByCompanyId), new { id = newAppointment.CompanyId }, newAppointment);
         }
         [HttpPatch("ReserveAppointment/{id}")]
-        public IActionResult ReserveAppointment(int id, [FromBody] int userId)
+        public IActionResult ReserveAppointment(int id, [FromBody] Reservation reservation)
         {
-            Console.WriteLine($"Received id: {id}, userId: {userId}");
+            Console.WriteLine($"Received id: {id}, userId: {reservation.UserId}");
 
             var appointment = _appointmentContext.Appointments.Find(id);
             if (appointment == null)
@@ -64,10 +64,12 @@ namespace Medicina.Controllers
             //appointment.UserId = userId;
 
             // Set the appointment as reserved
+            //dodavanje rezervacije 
+            _reservationContext.Reservations.Add(reservation);
+            _reservationContext.SaveChanges();
+
             appointment.IsReserved = true;
-            //dodavanje rezervacije
-            var reservation = new Reservation(userId, 0, false);
-            _reservationContext.Add(reservation);
+            appointment.ReservationId = reservation.Id;
             _appointmentContext.Entry(appointment).State = EntityState.Modified;
             _appointmentContext.SaveChanges();
 
