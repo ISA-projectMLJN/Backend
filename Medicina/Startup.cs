@@ -58,6 +58,8 @@ namespace Medicina
             services.AddDbContext<EquipmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<CompanyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<CompanyRateContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<AppointmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<ReservationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
         }
 
 
