@@ -17,7 +17,8 @@ namespace Medicina.Migrations
                     UserRole = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
-                    CompanyId = table.Column<int>(nullable: false)
+                    CompanyId = table.Column<int>(nullable: false),
+                    IsPredef = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

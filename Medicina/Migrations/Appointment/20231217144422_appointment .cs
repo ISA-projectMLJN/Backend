@@ -14,10 +14,13 @@ namespace Medicina.Migrations.Appointment
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AdministratorsId = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: false),
+                    ReservationId = table.Column<int>(nullable: true),
+                    EquipmentId = table.Column<int>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Duration = table.Column<int>(nullable: false),
-                    IsReserved = table.Column<bool>(nullable: false)
+                    IsReserved = table.Column<bool>(nullable: false),
+                    IsEquipmentTaken = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

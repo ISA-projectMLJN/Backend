@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.Reservation
 {
-    public partial class reservation : Migration
+    public partial class reserve : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,6 @@ namespace Medicina.Migrations.Reservation
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
-                    EquipmentId = table.Column<int>(nullable: false),
                     EquipmentCount = table.Column<int>(nullable: false),
                     IsDone = table.Column<bool>(nullable: false)
                 },

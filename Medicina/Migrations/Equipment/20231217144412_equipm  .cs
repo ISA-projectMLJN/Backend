@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.Equipment
 {
-    public partial class equip : Migration
+    public partial class equipm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,9 @@ namespace Medicina.Migrations.Equipment
                     Name = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false)
+                    Rating = table.Column<double>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: true),
+                    Count = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Appointment
 {
     [DbContext(typeof(AppointmentContext))]
-    [Migration("20231216142510_appointment")]
+    [Migration("20231217144422_appointment ")]
     partial class appointment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,16 +31,25 @@ namespace Medicina.Migrations.Appointment
                     b.Property<int>("AdministratorsId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsEquipmentTaken")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsReserved")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int?>("ReservationId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
