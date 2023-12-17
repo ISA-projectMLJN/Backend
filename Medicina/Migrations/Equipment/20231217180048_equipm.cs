@@ -16,7 +16,8 @@ namespace Medicina.Migrations.Equipment
                     Type = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     Rating = table.Column<double>(nullable: false),
-                    CompanyId = table.Column<int>(nullable: true)
+                    CompanyId = table.Column<int>(nullable: true),
+                    Count = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

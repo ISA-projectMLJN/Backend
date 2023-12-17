@@ -36,6 +36,25 @@ namespace Medicina.Controllers
             }
             return Ok(AppointmentList);
         }
+
+        [HttpGet("GetAppointmentsByDateAndWorking/{id}/{date}")]
+        public ActionResult<Appointment> GetAppointmentsByDateAndWorking(int id, DateTime date)
+        {
+            // Filtriraj termine za određeni datum
+            var appointmentList = _appointmentContext.Appointments
+                .Where(e => e.CompanyId == id && e.Date.Date == date.Date)
+                .ToList();
+
+            if (appointmentList == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(appointmentList);
+        }
+
+
+
         [HttpPost("AddAppointment")]
         public ActionResult<Appointment> AddAppointment([FromBody] Appointment newAppointment)
         {

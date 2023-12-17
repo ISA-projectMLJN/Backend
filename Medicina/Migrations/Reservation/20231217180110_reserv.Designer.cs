@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Reservation
 {
     [DbContext(typeof(ReservationContext))]
-    [Migration("20231217153030_reserv")]
+    [Migration("20231217180110_reserv")]
     partial class reserv
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

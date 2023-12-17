@@ -16,7 +16,6 @@ namespace Medicina.Migrations.Company
                     Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     AverageRating = table.Column<double>(nullable: false),
-                    AvailablePickupDates = table.Column<string>(nullable: true),
                     EquipmentId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
