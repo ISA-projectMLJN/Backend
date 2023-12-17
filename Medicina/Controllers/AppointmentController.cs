@@ -42,7 +42,7 @@ namespace Medicina.Controllers
             if (newAppointment == null)
             {
                 return BadRequest();
-            }
+            } 
 
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();

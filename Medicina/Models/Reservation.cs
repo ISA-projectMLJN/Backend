@@ -7,8 +7,7 @@
         public int EquipmentCount { get; set; }
         public bool IsDone { get; set; }
         public Reservation() { }
-        public Reservation(int userId, int count, bool isDone)
-        {
+        public Reservation(int userId, int count, bool isDone) {
             UserId = userId;
             EquipmentCount = count;
             IsDone = isDone;

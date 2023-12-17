@@ -11,7 +11,8 @@ namespace Medicina.Models
         public string Address { get; set; }
         public string Description { get; set; }
         public double AverageRating { get; set; }
-        public string AvailablePickupDates { get; set; } 
+        [NotMapped]
+        public List<Appointment> AvailableAppointments { get; set; } 
         public List<User> OtherAdministrators { get; set; }
         [NotMapped]
         public List<Equipment> CompaniesEquipment { get; set; }
@@ -32,14 +33,14 @@ namespace Medicina.Models
 
 
         public Company(string name, string address, string description, double averageRating,
-            string availablePickupDates, List<User> otherAdministrators,
+            List<Appointment> availablePickupDates, List<User> otherAdministrators,
             List<Equipment> equipmentCompanies)
         {
             Name = name;
             Address = address;
             Description = description;
             AverageRating = averageRating;
-            AvailablePickupDates = availablePickupDates;
+            AvailableAppointments = availablePickupDates;
             OtherAdministrators = otherAdministrators;
             CompaniesEquipment = equipmentCompanies;
         }

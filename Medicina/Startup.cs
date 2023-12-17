@@ -33,8 +33,7 @@ namespace Medicina
                     builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
                 });
 
-            });
-            //services.AddIdentity<PersonContext, IdentityRole>().AddEntityFrameworkStores<PersonContext>().AddDefaultTokenProviders();
+            }); 
 
             services.AddControllers();
 

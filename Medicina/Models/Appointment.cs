@@ -27,7 +27,7 @@ namespace Medicina.Models
         {
             AdministratorsId = administratorsId;
             CompanyId = companyId;
-            ReservationId = resId;
+            ReservationId = resId; 
             Date = date;
             Duration = duration;
             IsReserved = isReserved;
