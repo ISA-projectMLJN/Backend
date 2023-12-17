@@ -9,13 +9,13 @@ namespace Medicina.Models
 {
     public class JwtService
     {
-        public String SecretKey { get; set; }
+        public string SecretKey { get; set; }
         public int TokenDuration { get; set; }
         private readonly IConfiguration config;
 
         public JwtService(IConfiguration _config)
         { }
-        public String GenerateToken(String id,String email, String password, String name, String surname)
+        public string GenerateToken(string id, string email, string password, string name, string surname)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.SecretKey));
             var signature = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

@@ -9,8 +9,8 @@ namespace Medicina.Models
     {
         public int UserID { get; set; }
 
-        public String Email {  get; set; }
-        public String Password { get; set; }
+        public string Email {  get; set; }
+        public string Password { get; set; }
 
         public Role UserRole { get; set; }
         public string Name { get; set; }
@@ -18,6 +18,6 @@ namespace Medicina.Models
         public int CompanyId { get; set; }
         public bool IsPredef {  get; set; }
 
-
+        
     }
 }

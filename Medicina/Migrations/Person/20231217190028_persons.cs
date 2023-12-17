@@ -22,7 +22,9 @@ namespace Medicina.Migrations.Person
                     Phone = table.Column<string>(nullable: true),
                     Profession = table.Column<string>(nullable: true),
                     CompanyInfo = table.Column<string>(nullable: true),
-                    MemberSince = table.Column<DateTime>(nullable: false)
+                    MemberSince = table.Column<DateTime>(nullable: false),
+                    ActivationLink = table.Column<string>(nullable: true),
+                    IsActivated = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -38,7 +38,7 @@ namespace Medicina.Controllers
             return Ok("Succes from Create Method");
         }
 
-        [AllowAnonymous]
+       /* [AllowAnonymous]
         [HttpPost("LoginUser")]
         public IActionResult Login(LogIn user)
         {
@@ -59,6 +59,7 @@ namespace Medicina.Controllers
                 return Ok("Fail");
             }
         }
+       */
         [HttpGet("GetUsersByRole")]
         public IActionResult GetUsersByRole()
         {

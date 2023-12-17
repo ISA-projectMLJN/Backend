@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Equipment
 {
     [DbContext(typeof(EquipmentContext))]
-    [Migration("20231217144412_equipm  ")]
+    [Migration("20231217190032_equipm  ")]
     partial class equipm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

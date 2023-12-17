@@ -14,7 +14,9 @@ namespace Medicina.Migrations.Reservation
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
                     EquipmentCount = table.Column<int>(nullable: false),
-                    IsDone = table.Column<bool>(nullable: false)
+                    IsDone = table.Column<bool>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Surname = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
