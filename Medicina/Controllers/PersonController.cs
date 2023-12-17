@@ -1,11 +1,14 @@
-﻿using Medicina.Context;
+﻿using MailKit;
+using Medicina.Context;
 using Medicina.Models;
+using Medicina.String;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Medicina.MailUtil;
 using System;
 
 namespace Medicina.Controllers
@@ -18,17 +21,21 @@ namespace Medicina.Controllers
         private readonly IConfiguration _config;
         public readonly PersonContext _personContext;
         public readonly UserContext _userContext;
-        public PersonController(IConfiguration config, PersonContext personContext, UserContext userContext)
+        private readonly Medicina.MailUtil.IMailService _mailService;
+        public PersonController(IConfiguration config, PersonContext personContext, UserContext userContext, Medicina.MailUtil.IMailService mailService)
         {
             _config = config;
             _personContext = personContext;
             _userContext = userContext;
+            _mailService = mailService;
         }
         [AllowAnonymous]
         [HttpPost("CreatePerson")]
         public IActionResult Create(Person person)
         {
             person.MemberSince = DateTime.Now;
+            person.IsActivated = false;
+            person.ActivationLink = RandomStringGenerator.RandomString(10);
             _personContext.Add(person);
             _personContext.SaveChanges();
             var user = new User
@@ -37,13 +44,14 @@ namespace Medicina.Controllers
                 Password = person.Password, // Treba implementirati siguran način čuvanja lozinke
                 UserRole = Role.REGISTER_USER,
                 Name = person.Name,
-                Surname = person.Name,
-
+                Surname = person.Surname,
+                
                 CompanyId = 1
             };
-
+            
             _userContext.Add(user);
             _userContext.SaveChanges();
+            _mailService.SendActivationMail(person);
 
             return Ok("Succes from Create Method");
         }
@@ -119,5 +127,24 @@ namespace Medicina.Controllers
 
             return Ok(existingPerson);
         }
+
+        [HttpPut("ActivateProfile/{link}")]
+        public ActionResult<Person> ActivateUser([FromRoute] string link)
+        {
+            var person = _personContext.GetUserWithActivationLink(link);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+            person.IsActivated = true;
+
+
+            _personContext.Entry(person).CurrentValues.SetValues(person);
+            _personContext.SaveChanges();
+
+            return Ok();
+        }
     }
 }
+

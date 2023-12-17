@@ -1,32 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Medicina.Migrations.Equipment
+namespace Medicina.Migrations.Reservation
 {
-    public partial class equip : Migration
+    public partial class reserve : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Equipment",
+                name: "Reservations",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(nullable: false),
+                    EquipmentCount = table.Column<int>(nullable: false),
+                    IsDone = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    Rating = table.Column<double>(nullable: false)
+                    Surname = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Equipment");
+                name: "Reservations");
         }
     }
 }

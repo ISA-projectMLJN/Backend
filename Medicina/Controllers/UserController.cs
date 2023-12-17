@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Medicina.Controllers
@@ -37,7 +38,7 @@ namespace Medicina.Controllers
             return Ok("Succes from Create Method");
         }
 
-        [AllowAnonymous]
+       /* [AllowAnonymous]
         [HttpPost("LoginUser")]
         public IActionResult Login(LogIn user)
         {
@@ -58,6 +59,7 @@ namespace Medicina.Controllers
                 return Ok("Fail");
             }
         }
+       */
         [HttpGet("GetUsersByRole")]
         public IActionResult GetUsersByRole()
         {
@@ -65,11 +67,44 @@ namespace Medicina.Controllers
             return Ok(users);
         }
 
+        [HttpGet("GetAllSysAdmin")]
+        public ActionResult<IEnumerable<User>> GetAll()
+        {
+            var users = _userContext.Users.ToList().Where(u => u.UserRole==Role.SYSTEM_ADMIN);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
+        }
+
+        [HttpPost("CreateSystemAdmin")]
+        public IActionResult CreateSA([FromBody] User user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid input data");
+            }
+
+            var existingUser = _userContext.Users.FirstOrDefault(u => u.Email == user.Email);
+
+            if (existingUser != null)
+            {
+                return Ok(new { Success = false, Message = "User with the same email already exists" });
+            }
+            user.IsPredef = false;
+            user.UserRole = Role.SYSTEM_ADMIN;
+            _userContext.Add(user);
+            _userContext.SaveChanges();
+
+            return Ok(new { Success = true, Message = "User created successfully", UserID = user.UserID });
+        }
 
 
-        
-    }        
-            
+    }
+
 }
 
 

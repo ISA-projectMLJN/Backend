@@ -29,9 +29,6 @@ namespace Medicina.Migrations.Company
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AvailablePickupDates")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("AverageRating")
                         .HasColumnType("float");
 
@@ -61,6 +58,9 @@ namespace Medicina.Migrations.Company
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPredef")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
