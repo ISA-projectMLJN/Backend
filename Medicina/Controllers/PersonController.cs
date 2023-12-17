@@ -119,5 +119,24 @@ namespace Medicina.Controllers
 
             return Ok(existingPerson);
         }
+
+        [HttpPut("ActivateProfile/{link}")]
+        public ActionResult<Person> ActivateUser([FromRoute] string link)
+        {
+            var person = _personContext.GetUserWithActivationLink(link);
+
+            if (person == null)
+            {
+                return NotFound();
+            }
+            person.IsActivated = true;
+
+
+            _personContext.Entry(person).CurrentValues.SetValues(person);
+            _personContext.SaveChanges();
+
+            return Ok();
+        }
     }
 }
+
