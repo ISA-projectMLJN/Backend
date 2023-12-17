@@ -43,7 +43,7 @@ namespace Medicina.Controllers
         {
 
             Company company = _companyContext.Companies.FirstOrDefault(u => u.Id == selectedCompanyId);
-            // Save the rating
+            // Save the rating  
             _companyrateContext.Add(rate);
             _companyrateContext.SaveChanges();
 
