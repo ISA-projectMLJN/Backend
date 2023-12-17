@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Medicina.Controllers
@@ -18,12 +19,16 @@ namespace Medicina.Controllers
         public readonly EquipmentContext _equipmentContext;
         public readonly CompanyContext _companyContext;
         public readonly ReservationContext _reservationContext;
-        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext)
+        public readonly UserContext _userContext;
+        public readonly PersonContext _presonContext;
+        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
             _companyContext = companyContext;
             _reservationContext = reservationContext;
+            _userContext = userContext; 
+            _presonContext = personContext;
         }
         [HttpGet("GetAppointmentsByCompanyId/{id}")]
         public ActionResult<Appointment> GetAppointmentsByCompanyId(int id)
@@ -61,7 +66,11 @@ namespace Medicina.Controllers
             if (newAppointment == null)
             {
                 return BadRequest();
-            } 
+            }
+
+            var admin = _presonContext.Persons.Find(newAppointment.AdministratorsId);
+            newAppointment.AdministratorsName = admin.Name;
+            newAppointment.AdministratorsSurname = admin.Surname;
 
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();
@@ -84,6 +93,7 @@ namespace Medicina.Controllers
 
             // Set the appointment as reserved
             //dodavanje rezervacije 
+            
             _reservationContext.Reservations.Add(reservation);
             _reservationContext.SaveChanges();
 
@@ -94,6 +104,16 @@ namespace Medicina.Controllers
 
             return Ok(appointment);
         }
+        [HttpGet("GetAppointmentsForDay")]
+        public ActionResult<IEnumerable<object>> GetAppointmentsForDay([FromQuery] DateTime date)
+        {
+            var appointmentsForDay = _appointmentContext.Appointments .ToList();
+
+            return Ok(appointmentsForDay);
+        }
+
+       
+
 
     }
 }

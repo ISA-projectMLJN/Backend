@@ -13,6 +13,7 @@ namespace Medicina
     using System.Text;
     using System;
     using Microsoft.AspNetCore.Identity;
+    using Medicina.MailUtil;
 
     public class Startup
     {
@@ -36,24 +37,10 @@ namespace Medicina
             }); 
 
             services.AddControllers();
-
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<PersonContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
-            services.AddDbContext<LogInContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
-            {
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = "localhost",
-                    ValidAudience = "localhost",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["jwtConfig:Key"])),
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
             services.AddDbContext<EquipmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<CompanyContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<CompanyRateContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
@@ -77,6 +64,7 @@ namespace Medicina
 
             app.UseCors("AllowOrigin");  // Place this before app.UseAuthorization();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

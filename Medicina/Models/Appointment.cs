@@ -13,9 +13,9 @@ namespace Medicina.Models
         public int CompanyId { get; set; }
         public int? ReservationId { get; set; }
         public int EquipmentId { get; set; }
-        [NotMapped]
+        
         public string? AdministratorsName { get; set; }
-        [NotMapped]
+        
         public string? AdministratorsSurname { get; set; }
         public DateTime Date { get; set; }
         public int Duration { get; set; }

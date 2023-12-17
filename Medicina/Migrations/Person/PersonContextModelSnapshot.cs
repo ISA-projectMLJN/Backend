@@ -26,6 +26,12 @@ namespace Medicina.Migrations.Person
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+<<<<<<< HEAD
+=======
+                    b.Property<string>("ActivationLink")
+                        .HasColumnType("nvarchar(max)");
+
+>>>>>>> development
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -38,6 +44,12 @@ namespace Medicina.Migrations.Person
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD
+=======
+                    b.Property<bool>("IsActivated")
+                        .HasColumnType("bit");
+
+>>>>>>> development
                     b.Property<DateTime>("MemberSince")
                         .HasColumnType("datetime2");
 
