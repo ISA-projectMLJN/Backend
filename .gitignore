@@ -29,3 +29,6 @@
 *.dll
 *.editorconfig
 *.pdb
+/Medicina/obj/Debug/netcoreapp3.1/Medicina.AssemblyInfoInputs.cache
+/Medicina/obj/Debug/netcoreapp3.1/Medicina.csproj.AssemblyReference.cache
+/Medicina/obj/Medicina.csproj.nuget.g.props
