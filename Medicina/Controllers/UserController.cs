@@ -27,6 +27,7 @@ namespace Medicina.Controllers
         [HttpPost("CreateUser")]
         public IActionResult Create(User user)
         {
+            
             if (_userContext.Users.Where(u => u.Email == user.Email).FirstOrDefault() != null)
             {
                 return Ok("Already Exists");
@@ -36,7 +37,7 @@ namespace Medicina.Controllers
             _userContext.SaveChanges();
             return Ok("Succes from Create Method");
         }
-
+/*
         [AllowAnonymous]
         [HttpPost("LoginUser")]
         public IActionResult Login(LogIn user)
@@ -57,7 +58,7 @@ namespace Medicina.Controllers
             {
                 return Ok("Fail");
             }
-        }
+        } */
         [HttpGet("GetUsersByRole")]
         public IActionResult GetUsersByRole()
         {

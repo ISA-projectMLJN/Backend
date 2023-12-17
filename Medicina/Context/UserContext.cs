@@ -1,4 +1,5 @@
-﻿using Medicina.Models;
+﻿
+using Medicina.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ namespace Medicina.Context
     {
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
-
         }
 
         public DbSet<User> Users { get; set; }
@@ -19,5 +19,8 @@ namespace Medicina.Context
         {
             return Users.Where(u => u.UserRole ==Role.CAMPAIN_ADMIN).ToList();
         }
+
+       
+
     }
 }

@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.AspNetCore.Identity;
+using Medicina.String;
+using Medicina.MailUtil;
 
 namespace Medicina.Controllers
 {
@@ -18,17 +21,24 @@ namespace Medicina.Controllers
         private readonly IConfiguration _config;
         public readonly PersonContext _personContext;
         public readonly UserContext _userContext;
-        public PersonController(IConfiguration config, PersonContext personContext, UserContext userContext)
+        private readonly IMailService _mailService;
+      
+        public PersonController(IConfiguration config, PersonContext personContext, UserContext userContext, IMailService mailService)
         {
             _config = config;
             _personContext = personContext;
             _userContext = userContext;
+            _mailService = mailService;
+           
         }
         [AllowAnonymous]
         [HttpPost("CreatePerson")]
         public IActionResult Create(Person person)
         {
             person.MemberSince = DateTime.Now;
+            person.IsActivated = false;
+            person.ActivationLink = RandomStringGenerator.RandomString(10);
+
             _personContext.Add(person);
             _personContext.SaveChanges();
             var user = new User
@@ -42,11 +52,37 @@ namespace Medicina.Controllers
                 CompanyId = 1
             };
 
+            //var result = await _userManager.CreateAsync(user, person.Password);
+ 
             _userContext.Add(user);
             _userContext.SaveChanges();
+            _mailService.SendActivationMail(person);
 
+          
             return Ok("Succes from Create Method");
         }
+
+      /*  private void SendVerificationEmail(string email, string link)
+        {
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Your App Name", _config["Smtp:Username"]));
+            message.To.Add(new MailboxAddress("Recipient Name", email));
+            message.Subject = "Verification Email";
+
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.TextBody = $"Click on the following link to verify your email: {link}";
+
+            message.Body = bodyBuilder.ToMessageBody();
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect(_config["Smtp:Host"], int.Parse(_config["Smtp:Port"]), false);
+                client.Authenticate(_config["Smtp:Username"], _config["Smtp:Password"]);
+                client.Send(message);
+                client.Disconnect(true);
+            }
+        } */
+
         [HttpGet("GetAdminById/{id}")]
         public ActionResult<Person> GetById(int id)
         {
@@ -118,6 +154,24 @@ namespace Medicina.Controllers
             _userContext.SaveChanges();
 
             return Ok(existingPerson);
+        }
+
+        [HttpPut("ActivateProfile/{link}")]
+        public ActionResult<Person> ActivateUser([FromRoute] string link)
+        {
+            var person = _personContext.GetUserWithActivationLink(link);
+            
+            if (person == null )
+            {
+                return NotFound();
+            }
+            person.IsActivated = true;
+
+
+            _personContext.Entry(person).CurrentValues.SetValues(person);
+            _personContext.SaveChanges();
+
+            return Ok();
         }
     }
 }
