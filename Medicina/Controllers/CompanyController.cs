@@ -3,6 +3,7 @@ using Medicina.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -110,5 +111,7 @@ namespace Medicina.Controllers
                 return BadRequest("Invalid model state. Check your inputs.");
             }
         }
+
+
     }
 }
