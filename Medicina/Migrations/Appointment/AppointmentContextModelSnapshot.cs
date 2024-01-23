@@ -29,15 +29,12 @@ namespace Medicina.Migrations.Appointment
                     b.Property<int>("AdministratorsId")
                         .HasColumnType("int");
 
-<<<<<<< HEAD
-=======
                     b.Property<string>("AdministratorsName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AdministratorsSurname")
                         .HasColumnType("nvarchar(max)");
 
->>>>>>> development
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 

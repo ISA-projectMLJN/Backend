@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.CompanyRate
 {
-    public partial class rates : Migration
+    public partial class rate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

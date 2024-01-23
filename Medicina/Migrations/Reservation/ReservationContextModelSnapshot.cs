@@ -31,15 +31,12 @@ namespace Medicina.Migrations.Reservation
                     b.Property<bool>("IsDone")
                         .HasColumnType("bit");
 
-<<<<<<< HEAD
-=======
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
->>>>>>> development
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 

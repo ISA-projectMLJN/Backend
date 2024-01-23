@@ -59,12 +59,9 @@ namespace Medicina.Migrations.Company
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
-=======
                     b.Property<bool>("IsPredef")
                         .HasColumnType("bit");
 
->>>>>>> development
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 

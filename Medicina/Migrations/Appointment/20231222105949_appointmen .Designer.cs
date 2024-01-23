@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Appointment
 {
     [DbContext(typeof(AppointmentContext))]
-    [Migration("20231217180104_appoi")]
-    partial class appoi
+    [Migration("20231222105949_appointmen ")]
+    partial class appointmen
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,12 @@ namespace Medicina.Migrations.Appointment
 
                     b.Property<int>("AdministratorsId")
                         .HasColumnType("int");
+
+                    b.Property<string>("AdministratorsName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdministratorsSurname")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");

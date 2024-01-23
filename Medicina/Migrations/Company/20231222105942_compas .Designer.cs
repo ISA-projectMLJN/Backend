@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Company
 {
     [DbContext(typeof(CompanyContext))]
-    [Migration("20231217190036_compas ")]
+    [Migration("20231222105942_compas ")]
     partial class compas
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
