@@ -67,6 +67,13 @@ namespace Medicina.Controllers
             return Ok(users);
         }
 
+        [HttpGet("GetUserById/{id}")]
+        public IActionResult GetUserById(int id)
+        {
+            var user = _userContext.GetUserById(id);
+            return Ok(user);
+        }
+
         [HttpGet("GetAllSysAdmin")]
         public ActionResult<IEnumerable<User>> GetAll()
         {
