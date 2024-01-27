@@ -15,6 +15,7 @@ namespace Medicina
     using Microsoft.AspNetCore.Identity;
     using Medicina.MailUtil;
 
+
     public class Startup
     {
         public Startup(IConfiguration configuration)

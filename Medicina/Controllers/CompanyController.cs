@@ -1,5 +1,6 @@
 ﻿using Medicina.Context;
 using Medicina.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ namespace Medicina.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
+    [Authorize(Roles = "CAMPAIN_ADMIN")]
     public class CompanyController : ControllerBase
     {
         private readonly IConfiguration _config;
