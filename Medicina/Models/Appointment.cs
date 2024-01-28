@@ -11,11 +11,8 @@ namespace Medicina.Models
         public int Id { get; set; }
         public int AdministratorsId { get; set; }
         public int CompanyId { get; set; }
-        public int? ReservationId { get; set; }
-        public int EquipmentId { get; set; }
-        
-        public string? AdministratorsName { get; set; }
-        
+        public int? ReservationId { get; set; }        
+        public string? AdministratorsName { get; set; }        
         public string? AdministratorsSurname { get; set; }
         public DateTime Date { get; set; }
         public int Duration { get; set; }

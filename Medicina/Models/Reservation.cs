@@ -6,6 +6,7 @@ namespace Medicina.Models
     {
         public int Id { get; set; }
         public int UserId { get; set; }
+        public int EquipmentId { get; set; }
         public int EquipmentCount { get; set; }
         public bool IsDone { get; set; }
         public string? Name { get; set; }

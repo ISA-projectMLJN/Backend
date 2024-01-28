@@ -19,5 +19,9 @@ namespace Medicina.Context
         {
             return Users.Where(u => u.UserRole ==Role.CAMPAIN_ADMIN).ToList();
         }
+        public User GetUserById(int id)
+        {
+            return Users.FirstOrDefault(u => u.UserID == id);
+        }
     }
 }
