@@ -69,7 +69,7 @@ namespace Medicina.Controllers
             }
 
             var admin = _presonContext.Persons.Find(newAppointment.AdministratorsId);
-            var company = _companyContext.Companies.Find(newAppointment.CompanyId);
+            var company = _companyContext.Companies.FirstOrDefault(e => e.Id == newAppointment.CompanyId);
             newAppointment.AdministratorsName = admin.Name;
             newAppointment.AdministratorsSurname = admin.Surname;
 
@@ -77,15 +77,15 @@ namespace Medicina.Controllers
             newAppointment.EndTime = newAppointment.Start.AddMinutes(newAppointment.Duration);
             TimeSpan startTimeOfDay = new TimeSpan(newAppointment.Start.TimeOfDay.Hours, newAppointment.Start.TimeOfDay.Minutes, newAppointment.Start.TimeOfDay.Seconds);
             TimeSpan endTimeOfDay = new TimeSpan(newAppointment.EndTime.TimeOfDay.Hours, newAppointment.EndTime.TimeOfDay.Minutes, newAppointment.EndTime.TimeOfDay.Seconds);
-
+            
             if (startTimeOfDay < company.OpeningTime || endTimeOfDay > company.ClosingTime)
             {
-                // Handle the case where the appointment is outside of the company's working hours
-                throw new InvalidOperationException("Appointment is outside of working hours.");
+                return BadRequest("Appointment is outside of working hours.");
             }
 
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();
+            _companyContext.SaveChanges();
 
             return CreatedAtAction(nameof(GetAppointmentsByCompanyId), new { id = newAppointment.CompanyId }, newAppointment);
         }
