@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medicina.Migrations.Company
 {
@@ -16,7 +17,9 @@ namespace Medicina.Migrations.Company
                     Address = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     AverageRating = table.Column<double>(nullable: false),
-                    EquipmentId = table.Column<int>(nullable: true)
+                    EquipmentId = table.Column<int>(nullable: true),
+                    OpeningTime = table.Column<TimeSpan>(nullable: false),
+                    ClosingTime = table.Column<TimeSpan>(nullable: false)
                 },
                 constraints: table =>
                 {

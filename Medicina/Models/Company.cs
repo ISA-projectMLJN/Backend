@@ -19,6 +19,8 @@ namespace Medicina.Models
         [NotMapped]
         public Equipment? Equipment { get; set; }
         public int? EquipmentId { get; set; }
+        public TimeSpan OpeningTime { get; set; }
+        public TimeSpan ClosingTime { get; set; }
         public Company()
         {
         }
@@ -34,7 +36,7 @@ namespace Medicina.Models
 
         public Company(string name, string address, string description, double averageRating,
             List<Appointment> availablePickupDates, List<User> otherAdministrators,
-            List<Equipment> equipmentCompanies)
+            List<Equipment> equipmentCompanies,TimeSpan ot, TimeSpan ct)
         {
             Name = name;
             Address = address;
@@ -43,6 +45,8 @@ namespace Medicina.Models
             AvailableAppointments = availablePickupDates;
             OtherAdministrators = otherAdministrators;
             CompaniesEquipment = equipmentCompanies;
+            OpeningTime = ot;
+            ClosingTime = ct;
         }
 
     }

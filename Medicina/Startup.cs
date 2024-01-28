@@ -14,6 +14,7 @@ namespace Medicina
     using System;
     using Microsoft.AspNetCore.Identity;
     using Medicina.MailUtil;
+    using Microsoft.OpenApi.Models;
 
     public class Startup
     {
@@ -34,9 +35,31 @@ namespace Medicina
                     builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
                 });
 
-            }); 
+            });
 
-            services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Medicina",
+                    Version = "v1",
+                    Description = "Your API Description",
+                    // Additional information (optional)
+                    // Contact = new OpenApiContact
+                    // {
+                    //     Name = "Your Name",
+                    //     Email = "Your Email",
+                    //     Url = new Uri("Your Website URL")
+                    // },
+                    // License = new OpenApiLicense
+                    // {
+                    //     Name = "Your License",
+                    //     Url = new Uri("Your License URL")
+                    // }
+                });
+            });
+
+        services.AddControllers();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
             services.AddTransient<IMailService, MailService>();
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
@@ -70,6 +93,14 @@ namespace Medicina
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API Title V1");
+                // Specify the Swagger UI route (optional)
+                // c.RoutePrefix = "swagger";
             });
         }
 

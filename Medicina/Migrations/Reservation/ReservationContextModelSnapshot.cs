@@ -28,7 +28,10 @@ namespace Medicina.Migrations.Reservation
                     b.Property<int>("EquipmentCount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsDone")
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCollected")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")

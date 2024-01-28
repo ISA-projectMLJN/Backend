@@ -38,22 +38,19 @@ namespace Medicina.Migrations.Appointment
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("Duration")
                         .HasColumnType("int");
 
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsEquipmentTaken")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsReserved")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
