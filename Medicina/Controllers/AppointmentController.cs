@@ -33,7 +33,7 @@ namespace Medicina.Controllers
         [HttpGet("GetAppointmentsByCompanyId/{id}")]
         public ActionResult<Appointment> GetAppointmentsByCompanyId(int id)
         {
-            var AppointmentList = _appointmentContext.Appointments.Where(e => e.CompanyId == id).ToList();
+            var AppointmentList = _appointmentContext.Appointments.Where(e => e.CompanyId == id && e.Status == AppointmentStatus.Available).ToList();
 
             if (AppointmentList == null)
             {
@@ -47,7 +47,7 @@ namespace Medicina.Controllers
         {
             // Filtriraj termine za određeni datum
             var appointmentList = _appointmentContext.Appointments
-                .Where(e => e.CompanyId == id && e.Date.Date == date.Date)
+                .Where(e => e.CompanyId == id && e.Start.Date == date.Date)
                 .ToList();
 
             if (appointmentList == null)
@@ -69,8 +69,20 @@ namespace Medicina.Controllers
             }
 
             var admin = _presonContext.Persons.Find(newAppointment.AdministratorsId);
+            var company = _companyContext.Companies.Find(newAppointment.CompanyId);
             newAppointment.AdministratorsName = admin.Name;
             newAppointment.AdministratorsSurname = admin.Surname;
+
+            newAppointment.Status = AppointmentStatus.Available;
+            newAppointment.EndTime = newAppointment.Start.AddMinutes(newAppointment.Duration);
+            TimeSpan startTimeOfDay = new TimeSpan(newAppointment.Start.TimeOfDay.Hours, newAppointment.Start.TimeOfDay.Minutes, newAppointment.Start.TimeOfDay.Seconds);
+            TimeSpan endTimeOfDay = new TimeSpan(newAppointment.EndTime.TimeOfDay.Hours, newAppointment.EndTime.TimeOfDay.Minutes, newAppointment.EndTime.TimeOfDay.Seconds);
+
+            if (startTimeOfDay < company.OpeningTime || endTimeOfDay > company.ClosingTime)
+            {
+                // Handle the case where the appointment is outside of the company's working hours
+                throw new InvalidOperationException("Appointment is outside of working hours.");
+            }
 
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();
@@ -97,7 +109,7 @@ namespace Medicina.Controllers
             _reservationContext.Reservations.Add(reservation);
             _reservationContext.SaveChanges();
 
-            appointment.IsReserved = true;
+            appointment.Status = AppointmentStatus.Reserved;
             appointment.ReservationId = reservation.Id;
             _appointmentContext.Entry(appointment).State = EntityState.Modified;
             _appointmentContext.SaveChanges();

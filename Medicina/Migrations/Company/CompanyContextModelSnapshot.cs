@@ -32,6 +32,9 @@ namespace Medicina.Migrations.Company
                     b.Property<double>("AverageRating")
                         .HasColumnType("float");
 
+                    b.Property<TimeSpan>("ClosingTime")
+                        .HasColumnType("time");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,6 +43,9 @@ namespace Medicina.Migrations.Company
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("OpeningTime")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 

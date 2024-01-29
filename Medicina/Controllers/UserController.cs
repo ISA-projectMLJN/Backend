@@ -109,6 +109,19 @@ namespace Medicina.Controllers
             return Ok(new { Success = true, Message = "User created successfully", UserID = user.UserID });
         }
 
+        [HttpGet("GetAllOtherCompanyAdmins/{userId}/{companyId}")]
+        public ActionResult<IEnumerable<User>> GetAllOtherCompanyAdmins(int userId, int companyId)
+        {
+            var users = _userContext.Users.ToList().Where(u => u.UserRole == Role.CAMPAIN_ADMIN && u.UserID!=userId && u.CompanyId==companyId);
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
+        }
+
 
     }
 
