@@ -13,6 +13,7 @@ namespace Medicina.Migrations.Reservation
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(nullable: false),
+                    EquipmentId = table.Column<int>(nullable: false),
                     EquipmentCount = table.Column<int>(nullable: false),
                     IsDone = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),

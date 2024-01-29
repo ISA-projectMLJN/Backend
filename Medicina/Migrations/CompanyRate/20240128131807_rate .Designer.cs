@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations
+namespace Medicina.Migrations.CompanyRate
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20231222105929_user")]
-    partial class user
+    [DbContext(typeof(CompanyRateContext))]
+    [Migration("20240128131807_rate ")]
+    partial class rate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,37 +20,40 @@ namespace Medicina.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Medicina.Models.User", b =>
+            modelBuilder.Entity("Medicina.Models.CompanyRate", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Cheap")
+                        .HasColumnType("bit");
+
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsPredef")
+                    b.Property<bool>("Expensive")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("HighQuality")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("LimitedSelection")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("LowQuality")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("UserRole")
-                        .HasColumnType("int");
+                    b.Property<bool>("WideSelection")
+                        .HasColumnType("bit");
 
-                    b.HasKey("UserID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("CompanyRates");
                 });
 #pragma warning restore 612, 618
         }

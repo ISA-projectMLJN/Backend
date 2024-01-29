@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Reservation
 {
     [DbContext(typeof(ReservationContext))]
-    [Migration("20231222105945_reserve ")]
+    [Migration("20240128131720_reserve ")]
     partial class reserve
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,9 @@ namespace Medicina.Migrations.Reservation
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("EquipmentCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDone")

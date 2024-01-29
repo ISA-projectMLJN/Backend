@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.Equipment
+namespace Medicina.Migrations.Appointment
 {
-    [DbContext(typeof(EquipmentContext))]
-    [Migration("20231222105938_equipm  ")]
-    partial class equipm
+    [DbContext(typeof(AppointmentContext))]
+    [Migration("20240128133021_appointme ")]
+    partial class appointme
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,34 +21,43 @@ namespace Medicina.Migrations.Equipment
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Medicina.Models.Equipment", b =>
+            modelBuilder.Entity("Medicina.Models.Appointment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("AdministratorsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
+                    b.Property<string>("AdministratorsName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AdministratorsSurname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<bool>("IsEquipmentTaken")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsReserved")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Equipment");
+                    b.ToTable("Appointments");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,7 +16,6 @@ namespace Medicina.Migrations.Appointment
                     AdministratorsId = table.Column<int>(nullable: false),
                     CompanyId = table.Column<int>(nullable: false),
                     ReservationId = table.Column<int>(nullable: true),
-                    EquipmentId = table.Column<int>(nullable: false),
                     AdministratorsName = table.Column<string>(nullable: true),
                     AdministratorsSurname = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
