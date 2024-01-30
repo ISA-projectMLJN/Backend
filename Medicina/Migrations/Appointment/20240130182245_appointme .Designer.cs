@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Appointment
 {
     [DbContext(typeof(AppointmentContext))]
-    [Migration("20240125213203_appointments")]
-    partial class appointments
+    [Migration("20240130182245_appointme ")]
+    partial class appointme
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

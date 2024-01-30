@@ -9,5 +9,6 @@ namespace Medicina.MailUtil
     {
         void SendActivationMail(Person person);
         Task<bool> SendMail(MailData mailData, CancellationToken ct = default);
+        void SendConfirmationMail(Person person);
     }
 }

@@ -16,6 +16,7 @@ namespace Medicina
     using Medicina.MailUtil;
     using Microsoft.OpenApi.Models;
 
+
     public class Startup
     {
         public Startup(IConfiguration configuration)

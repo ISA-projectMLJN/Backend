@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medicina.Migrations.Company
 {
-    public partial class compas : Migration
+    public partial class compa : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,8 @@ namespace Medicina.Migrations.Company
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
                     CompanyId = table.Column<int>(nullable: false),
-                    IsPredef = table.Column<bool>(nullable: false)
+                    IsPredef = table.Column<bool>(nullable: false),
+                    PenaltyScore = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

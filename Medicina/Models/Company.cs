@@ -25,12 +25,14 @@ namespace Medicina.Models
         {
         }
 
-        public Company(string name, string address, string description, double averageRating)
+        public Company(string name, string address, string description, double averageRating, TimeSpan ot, TimeSpan ct)
         {
             Name = name;
             Address = address;
             Description = description;
             AverageRating = averageRating;
+            OpeningTime = ot;
+            ClosingTime = ct;
         }
 
 

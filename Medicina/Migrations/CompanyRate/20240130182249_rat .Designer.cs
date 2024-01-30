@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.CompanyRate
 {
     [DbContext(typeof(CompanyRateContext))]
-    [Migration("20231222121645_rate ")]
-    partial class rate
+    [Migration("20240130182249_rat ")]
+    partial class rat
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

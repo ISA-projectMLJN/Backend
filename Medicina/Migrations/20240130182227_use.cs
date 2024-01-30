@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations
 {
-    public partial class user : Migration
+    public partial class use : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

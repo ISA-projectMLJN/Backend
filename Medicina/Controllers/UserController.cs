@@ -1,4 +1,5 @@
 ﻿using Medicina.Context;
+using Medicina.Migrations.Person;
 using Medicina.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 
 namespace Medicina.Controllers
 {
@@ -21,6 +23,7 @@ namespace Medicina.Controllers
         public readonly UserContext _userContext;
         public readonly ReservationContext _resContext;
         public readonly AppointmentContext _appContext;
+     
         public UserController(IConfiguration config, UserContext userContext, ReservationContext resContext, AppointmentContext appContext)
         {
             _config = config;
@@ -39,6 +42,7 @@ namespace Medicina.Controllers
 
             _userContext.Add(user);
             _userContext.SaveChanges();
+          
             return Ok("Succes from Create Method");
         }
 

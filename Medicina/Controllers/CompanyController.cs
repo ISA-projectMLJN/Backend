@@ -1,5 +1,6 @@
 ﻿using Medicina.Context;
 using Medicina.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ namespace Medicina.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
+
     public class CompanyController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -83,9 +85,10 @@ namespace Medicina.Controllers
             return Ok(existingCompany);
         }
 
+
         [HttpPost("RegisterCompany/{selectedUserId}")]
         public IActionResult RegisterCompany(Company company, int selectedUserId)
-        { 
+        {
             User user = _userContext.Users.FirstOrDefault(u => u.UserID == selectedUserId);
 
 

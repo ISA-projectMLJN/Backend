@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Medicina.MailUtil;
 using System;
+using Medicina.MailUtil;
 
 namespace Medicina.Controllers
 {
@@ -52,6 +53,7 @@ namespace Medicina.Controllers
             _userContext.Add(user);
             _userContext.SaveChanges();
             _mailService.SendActivationMail(person);
+            
 
             return Ok("Succes from Create Method");
         }
