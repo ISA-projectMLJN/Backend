@@ -1,5 +1,5 @@
 ﻿using Medicina.Context;
-using Medicina.Migrations.Reservation;
+
 using Medicina.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -78,15 +78,41 @@ namespace Medicina.Controllers
             else return Ok(false);
         }
 
-
-        [HttpPatch("ReservationCollected/{reservationId}")]
-        public ActionResult<bool> ReservationCollected(int reservationId)
+        [HttpGet("{id}")]
+        public ActionResult<ReservationWithEquipment> GetReservationById(int id)
         {
-            var res = _reservationContext.Reservations.Find(reservationId);
-            var app = _appointmentContext.Appointments.FirstOrDefault(u => u.ReservationId == res.Id);
+            var reservation = _reservationContext.Reservations.FirstOrDefault(r => r.Id == id);
+
+            if (reservation == null)
+            {
+                return NotFound(); // Vrati 404 Not Found ako rezervacija nije pronađena
+            }
+
+            // Pronađi opremu na osnovu EquipmentId iz rezervacije
+            var equipment = _equipmentContext.Equipment.FirstOrDefault(e => e.Id == reservation.EquipmentId);
+
+            if (equipment == null)
+            {
+                return NotFound(); // Vrati 404 Not Found ako oprema nije pronađena
+            }
+
+            // Kreiraj objekat koji sadrži rezervaciju i pripadajuću opremu
+            var reservationWithEquipment = new ReservationWithEquipment
+            {
+                Reservation = reservation,
+                Equipment = equipment
+            };
+            return reservationWithEquipment;
+        }
+
+            [HttpPatch("ReservationCollected/{reservationId}")]
+            public ActionResult<bool> ReservationCollected(int reservationId)
+            {
+                var res = _reservationContext.Reservations.Find(reservationId);
+                var app = _appointmentContext.Appointments.FirstOrDefault(u => u.ReservationId == res.Id);
                 app.Status = AppointmentStatus.Collected;
                 res.IsCollected = true;
-                var eq = _equipmentContext.Equipment.FirstOrDefault(e=> e.Id == res.EquipmentId);
+                var eq = _equipmentContext.Equipment.FirstOrDefault(e => e.Id == res.EquipmentId);
                 eq.Count -= res.EquipmentCount;
                 _appointmentContext.Update(app);
                 _reservationContext.Update(res);
@@ -95,6 +121,18 @@ namespace Medicina.Controllers
                 _appointmentContext.SaveChanges();
                 _equipmentContext.SaveChanges();
                 return Ok(true);
+
+
+                
+            }
+
+
+        // Klasa koja predstavlja rezervaciju sa pripadajućom opremom
+        public class ReservationWithEquipment
+        {
+            public Reservation Reservation { get; set; }
+            public Equipment Equipment { get; set; }
         }
     }
+
 }
