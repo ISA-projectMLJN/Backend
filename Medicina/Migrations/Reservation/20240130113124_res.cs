@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medicina.Migrations.Reservation
 {
@@ -17,7 +18,8 @@ namespace Medicina.Migrations.Reservation
                     EquipmentCount = table.Column<int>(nullable: false),
                     IsCollected = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true)
+                    Surname = table.Column<string>(nullable: true),
+                    Deadline = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

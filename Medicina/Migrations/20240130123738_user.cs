@@ -18,7 +18,8 @@ namespace Medicina.Migrations
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
                     CompanyId = table.Column<int>(nullable: false),
-                    IsPredef = table.Column<bool>(nullable: false)
+                    IsPredef = table.Column<bool>(nullable: false),
+                    PenaltyScore = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
