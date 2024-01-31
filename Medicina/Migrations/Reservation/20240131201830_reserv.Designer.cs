@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations
+namespace Medicina.Migrations.Reservation
 {
-    [DbContext(typeof(UserContext))]
-    [Migration("20240125213134_user")]
-    partial class user
+    [DbContext(typeof(ReservationContext))]
+    [Migration("20240131201830_reserv")]
+    partial class reserv
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,9 +20,9 @@ namespace Medicina.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Medicina.Models.User", b =>
+            modelBuilder.Entity("Medicina.Models.Reservation", b =>
                 {
-                    b.Property<int>("UserID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -30,27 +30,27 @@ namespace Medicina.Migrations
                     b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("EquipmentCount")
+                        .HasColumnType("int");
 
-                    b.Property<bool>("IsPredef")
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCollected")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserRole")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("UserID");
+                    b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Reservations");
                 });
 #pragma warning restore 612, 618
         }

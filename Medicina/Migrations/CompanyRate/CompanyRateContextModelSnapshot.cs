@@ -46,6 +46,9 @@ namespace Medicina.Migrations.CompanyRate
                     b.Property<bool>("LowQuality")
                         .HasColumnType("bit");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("WideSelection")
                         .HasColumnType("bit");
 

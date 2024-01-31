@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.CompanyRate
 {
-    public partial class rate : Migration
+    public partial class rates : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,8 @@ namespace Medicina.Migrations.CompanyRate
                     WideSelection = table.Column<bool>(nullable: false),
                     LimitedSelection = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    CompanyId = table.Column<int>(nullable: false)
+                    CompanyId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

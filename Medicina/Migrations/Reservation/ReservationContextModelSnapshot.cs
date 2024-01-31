@@ -25,6 +25,9 @@ namespace Medicina.Migrations.Reservation
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<int>("EquipmentCount")
                         .HasColumnType("int");
 

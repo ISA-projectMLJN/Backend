@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.Reservation
 {
-    public partial class res : Migration
+    public partial class reserv : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +17,8 @@ namespace Medicina.Migrations.Reservation
                     EquipmentCount = table.Column<int>(nullable: false),
                     IsCollected = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true)
+                    Surname = table.Column<string>(nullable: true),
+                    CompanyId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

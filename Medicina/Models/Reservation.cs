@@ -11,6 +11,7 @@ namespace Medicina.Models
         public bool IsCollected { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
+        public int CompanyId { get; set; }
         public Reservation() { }
         public Reservation(int userId, int equipmentId, int count) {
             UserId = userId;

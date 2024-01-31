@@ -28,7 +28,45 @@ namespace Medicina.Controllers
             _reservationContext = reservationContext;
             _userContext = userContext;
         }
-        
+
+        [HttpGet("HasReservation/{userId}/{companyId}")]
+        public IActionResult HasReservation(int userId, int companyId)
+        {
+            var hasReservation = _reservationContext.Reservations
+                .Any(r => r.UserId == userId && r.CompanyId == companyId); // Adjust this line based on your actual data model
+
+            return Ok(hasReservation);
+        }
+
+
+        [HttpPatch("MakeReservation/{id}")]
+        public IActionResult MakeReservation(int id, [FromBody] Reservation reservation)
+        {
+            if (id == 0)
+            {
+                // This is a new reservation
+                _reservationContext.Reservations.Add(reservation);
+            }
+            else
+            {
+                // Update an existing reservation
+                var existingReservation = _reservationContext.Reservations.FirstOrDefault(r => r.Id == id);
+                if (existingReservation == null)
+                {
+                    return NotFound();
+                }
+                // Update fields of existingReservation with data from 'reservation'
+                existingReservation.EquipmentId = reservation.EquipmentId;
+                existingReservation.EquipmentCount = reservation.EquipmentCount;
+                existingReservation.IsCollected = reservation.IsCollected;
+                // Add other fields as necessary
+            }
+
+            _reservationContext.SaveChanges();
+            return Ok();
+        }
+
+
 
     }
 }

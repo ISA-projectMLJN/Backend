@@ -16,6 +16,8 @@ namespace Medicina.Controllers
         private readonly IConfiguration _config;
         public readonly CompanyRateContext _companyrateContext;
         public readonly CompanyContext _companyContext;
+        public readonly ReservationContext _reservationContext;
+        public readonly EquipmentContext _equipmentContext;
 
         public CompanyRateController(IConfiguration config, CompanyRateContext companyrateContext, CompanyContext companyContext)
         {
@@ -41,9 +43,14 @@ namespace Medicina.Controllers
         [HttpPost("RateCompany/{selectedCompanyId}")]
         public IActionResult Rate(int selectedCompanyId, CompanyRate rate)
         {
-
+            // Proceed with rating
             Company company = _companyContext.Companies.FirstOrDefault(u => u.Id == selectedCompanyId);
-            // Save the rating  
+            if (company == null)
+            {
+                return NotFound("Company not found.");
+            }
+
+            // Save the rating
             _companyrateContext.Add(rate);
             _companyrateContext.SaveChanges();
 
