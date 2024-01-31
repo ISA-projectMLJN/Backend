@@ -9,15 +9,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medicina.Migrations.EquipmentTracking
 {
-<<<<<<<< HEAD:Medicina/Migrations/CompanyRate/20240131201818_rates.Designer.cs
-    [DbContext(typeof(CompanyRateContext))]
-    [Migration("20240131201818_rates")]
-    partial class rates
-========
     [DbContext(typeof(EquipmentTrackingContext))]
-    [Migration("20240131015436_trac")]
-    partial class trac
->>>>>>>> development:Medicina/Migrations/EquipmentTracking/20240131015436_trac.Designer.cs
+    [Migration("20240131015509_tra")]
+    partial class tra
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,19 +43,8 @@ namespace Medicina.Migrations.EquipmentTracking
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
-<<<<<<<< HEAD:Medicina/Migrations/CompanyRate/20240131201818_rates.Designer.cs
-                    b.Property<bool>("LowQuality")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("WideSelection")
-                        .HasColumnType("bit");
-========
                     b.Property<double>("LongitudeB")
                         .HasColumnType("float");
->>>>>>>> development:Medicina/Migrations/EquipmentTracking/20240131015436_trac.Designer.cs
 
                     b.HasKey("Id");
 

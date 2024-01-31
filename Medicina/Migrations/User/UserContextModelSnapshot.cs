@@ -3,20 +3,14 @@ using Medicina.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medicina.Migrations.User
 {
     [DbContext(typeof(UserContext))]
-<<<<<<<< HEAD:Medicina/Migrations/20240131201754_user.Designer.cs
-    [Migration("20240131201754_user")]
-========
-    [Migration("20240131015024_user")]
->>>>>>>> development:Medicina/Migrations/User/20240131015024_user.Designer.cs
-    partial class user
+    partial class UserContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +43,16 @@ namespace Medicina.Migrations.User
                     b.Property<int>("PenaltyScore")
                         .HasColumnType("int");
 
+<<<<<<< HEAD:Medicina/Migrations/CompanyRate/CompanyRateContextModelSnapshot.cs
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("WideSelection")
+                        .HasColumnType("bit");
+=======
                     b.Property<string>("Surname")
                         .HasColumnType("nvarchar(max)");
+>>>>>>> development:Medicina/Migrations/User/UserContextModelSnapshot.cs
 
                     b.Property<int>("UserRole")
                         .HasColumnType("int");

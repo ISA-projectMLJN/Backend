@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Medicina.Models
 {
@@ -11,13 +12,16 @@ namespace Medicina.Models
         public bool IsCollected { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
+
+        public DateTime Deadline { get; set; }
         public int CompanyId { get; set; }
         public Reservation() { }
-        public Reservation(int userId, int equipmentId, int count) {
+        public Reservation(int userId, int equipmentId, int count, DateTime date) {
             UserId = userId;
             EquipmentId = equipmentId;
             EquipmentCount = count;
-            IsCollected = false;           
+            IsCollected = false;
+            Deadline = date;
         }
 
     }

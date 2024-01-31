@@ -10,7 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Medicina.Migrations.Equipment
 {
     [DbContext(typeof(EquipmentContext))]
+<<<<<<<< HEAD:Medicina/Migrations/Equipment/20240131201806_equipm.Designer.cs
     [Migration("20240131201806_equipm")]
+========
+    [Migration("20240131015036_equipm  ")]
+>>>>>>>> development:Medicina/Migrations/Equipment/20240131015036_equipm  .Designer.cs
     partial class equipm
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

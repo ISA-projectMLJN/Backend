@@ -1,5 +1,6 @@
 ﻿using Medicina.Context;
 using Medicina.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ namespace Medicina.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("AllowOrigin")]
+
     public class CompanyController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -67,10 +69,10 @@ namespace Medicina.Controllers
             return Ok(company);
         }
 
-        [HttpPatch("UpdateCompany")]
-        public ActionResult<Company> UpdateCompany([FromBody] Company updatedCompany)
+        [HttpPatch("UpdateCompany/{companyId}")]
+        public ActionResult<Company> UpdateCompany(int companyId, [FromBody] Company updatedCompany)
         {
-            var existingCompany = _companyContext.Companies.Find(updatedCompany.Id);
+            var existingCompany = _companyContext.Companies.Find(companyId);
 
             if (existingCompany == null)
             {
@@ -83,9 +85,10 @@ namespace Medicina.Controllers
             return Ok(existingCompany);
         }
 
+
         [HttpPost("RegisterCompany/{selectedUserId}")]
         public IActionResult RegisterCompany(Company company, int selectedUserId)
-        { 
+        {
             User user = _userContext.Users.FirstOrDefault(u => u.UserID == selectedUserId);
 
 
@@ -110,6 +113,20 @@ namespace Medicina.Controllers
             {
                 return BadRequest("Invalid model state. Check your inputs.");
             }
+        }
+        [HttpGet("GetCompanyByAdminId/{id}")]
+        public ActionResult<Company> GetCompanyByAdminId(int id)
+        {
+            var admin = _userContext.Users.Find(id);
+            var company = _companyContext.Companies.FirstOrDefault(c=> c.Id == admin.CompanyId);
+
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(company);
         }
 
 

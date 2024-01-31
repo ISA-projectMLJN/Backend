@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,24 +20,30 @@ namespace Medicina.Models
         [NotMapped]
         public Equipment? Equipment { get; set; }
         public int? EquipmentId { get; set; }
+
+        [JsonConverter(typeof(TimeSpanToStringConverter))]
         public TimeSpan OpeningTime { get; set; }
+
+        [JsonConverter(typeof(TimeSpanToStringConverter))]
         public TimeSpan ClosingTime { get; set; }
         public Company()
         {
         }
 
-        public Company(string name, string address, string description, double averageRating)
+        public Company(string name, string address, string description, double averageRating, TimeSpan ot, TimeSpan ct)
         {
             Name = name;
             Address = address;
             Description = description;
             AverageRating = averageRating;
+            OpeningTime = ot;
+            ClosingTime = ct;
         }
 
 
         public Company(string name, string address, string description, double averageRating,
             List<Appointment> availablePickupDates, List<User> otherAdministrators,
-            List<Equipment> equipmentCompanies,TimeSpan ot, TimeSpan ct)
+            List<Equipment> equipmentCompanies, TimeSpan ot, TimeSpan ct)
         {
             Name = name;
             Address = address;

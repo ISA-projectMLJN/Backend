@@ -7,10 +7,14 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.Person
+namespace Medicina.Migrations
 {
     [DbContext(typeof(PersonContext))]
+<<<<<<<< HEAD:Medicina/Migrations/20240131201801_persons.Designer.cs
     [Migration("20240131201801_persons")]
+========
+    [Migration("20240131015011_persons")]
+>>>>>>>> development:Medicina/Migrations/20240131015011_persons.Designer.cs
     partial class persons
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

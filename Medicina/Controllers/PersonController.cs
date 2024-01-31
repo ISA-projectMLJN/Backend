@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Medicina.MailUtil;
 using System;
+using Medicina.MailUtil;
 
 namespace Medicina.Controllers
 {
@@ -52,6 +53,7 @@ namespace Medicina.Controllers
             _userContext.Add(user);
             _userContext.SaveChanges();
             _mailService.SendActivationMail(person);
+            
 
             return Ok("Succes from Create Method");
         }
@@ -79,13 +81,15 @@ namespace Medicina.Controllers
                 return NotFound();
             }
 
+            updatedPerson.IsActivated = existingPerson.IsActivated;
+            updatedPerson.ActivationLink = existingPerson.ActivationLink;
             _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
             existingUser.Password = updatedPerson.Password;
-            existingUser.UserRole = Role.SYSTEM_ADMIN;
             existingUser.Name = updatedPerson.Name;
             existingUser.Surname = updatedPerson.Surname;
 
             _userContext.Entry(existingUser).CurrentValues.SetValues(existingUser);
+            _personContext.Update(existingPerson);
             _personContext.SaveChanges();
             _userContext.SaveChanges();
 

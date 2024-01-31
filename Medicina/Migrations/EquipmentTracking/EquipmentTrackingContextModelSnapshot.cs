@@ -4,22 +4,14 @@ using Medicina.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Medicina.Migrations.EquipmentTracking
 {
-<<<<<<<< HEAD:Medicina/Migrations/CompanyRate/20240131201818_rates.Designer.cs
-    [DbContext(typeof(CompanyRateContext))]
-    [Migration("20240131201818_rates")]
-    partial class rates
-========
     [DbContext(typeof(EquipmentTrackingContext))]
-    [Migration("20240131015436_trac")]
-    partial class trac
->>>>>>>> development:Medicina/Migrations/EquipmentTracking/20240131015436_trac.Designer.cs
+    partial class EquipmentTrackingContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,19 +41,8 @@ namespace Medicina.Migrations.EquipmentTracking
                     b.Property<double>("Longitude")
                         .HasColumnType("float");
 
-<<<<<<<< HEAD:Medicina/Migrations/CompanyRate/20240131201818_rates.Designer.cs
-                    b.Property<bool>("LowQuality")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("WideSelection")
-                        .HasColumnType("bit");
-========
                     b.Property<double>("LongitudeB")
                         .HasColumnType("float");
->>>>>>>> development:Medicina/Migrations/EquipmentTracking/20240131015436_trac.Designer.cs
 
                     b.HasKey("Id");
 
