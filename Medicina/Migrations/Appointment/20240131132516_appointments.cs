@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medicina.Migrations.Appointment
 {
-    public partial class appointme : Migration
+    public partial class appointments : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

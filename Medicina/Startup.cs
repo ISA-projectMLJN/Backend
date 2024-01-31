@@ -40,6 +40,12 @@ namespace Medicina
 
             });
 
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new TimeSpanToStringConverter());
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo

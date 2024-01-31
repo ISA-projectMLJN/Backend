@@ -39,8 +39,8 @@ namespace Medicina.Controllers
         public ActionResult<IEnumerable<Reservation>> GetAllUncollectedReservations(int companyId)
         {
             var reservations = _reservationContext.Reservations.ToList();
-            var appointments = _appointmentContext.Appointments.ToList()
-                .Where(u => u.CompanyId == companyId && u.ReservationId != 0 && u.Status == AppointmentStatus.Reserved);
+            var appointments = _appointmentContext.Appointments
+                .Where(u => u.CompanyId == companyId && u.ReservationId != 0 && u.Status == AppointmentStatus.Reserved).ToList();
             var uncollectedReservations = new List<Reservation>();
             foreach (var res in reservations)
             {

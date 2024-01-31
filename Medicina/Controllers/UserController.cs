@@ -1,5 +1,4 @@
 ﻿using Medicina.Context;
-using Medicina.Migrations.Person;
 using Medicina.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -134,8 +133,8 @@ namespace Medicina.Controllers
         public ActionResult<IEnumerable<User>> GetUsersWhoReserved(int companyId)
         {
             var reservations = _resContext.Reservations.ToList();
-            var appointments = _appContext.Appointments.ToList()
-                .Where(u => u.CompanyId == companyId && u.ReservationId != 0 && u.Status == AppointmentStatus.Reserved);
+            var appointments = _appContext.Appointments
+                .Where(u => u.CompanyId == companyId && u.ReservationId != 0 && u.Status == AppointmentStatus.Reserved).ToList();
             var users = new List<User>();
             foreach(var res in reservations)
             {

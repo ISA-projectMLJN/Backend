@@ -81,13 +81,15 @@ namespace Medicina.Controllers
                 return NotFound();
             }
 
+            updatedPerson.IsActivated = existingPerson.IsActivated;
+            updatedPerson.ActivationLink = existingPerson.ActivationLink;
             _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
             existingUser.Password = updatedPerson.Password;
-            existingUser.UserRole = Role.SYSTEM_ADMIN;
             existingUser.Name = updatedPerson.Name;
             existingUser.Surname = updatedPerson.Surname;
 
             _userContext.Entry(existingUser).CurrentValues.SetValues(existingUser);
+            _personContext.Update(existingPerson);
             _personContext.SaveChanges();
             _userContext.SaveChanges();
 

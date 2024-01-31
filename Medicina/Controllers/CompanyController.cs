@@ -69,10 +69,10 @@ namespace Medicina.Controllers
             return Ok(company);
         }
 
-        [HttpPatch("UpdateCompany")]
-        public ActionResult<Company> UpdateCompany([FromBody] Company updatedCompany)
+        [HttpPatch("UpdateCompany/{companyId}")]
+        public ActionResult<Company> UpdateCompany(int companyId, [FromBody] Company updatedCompany)
         {
-            var existingCompany = _companyContext.Companies.Find(updatedCompany.Id);
+            var existingCompany = _companyContext.Companies.Find(companyId);
 
             if (existingCompany == null)
             {
@@ -113,6 +113,20 @@ namespace Medicina.Controllers
             {
                 return BadRequest("Invalid model state. Check your inputs.");
             }
+        }
+        [HttpGet("GetCompanyByAdminId/{id}")]
+        public ActionResult<Company> GetCompanyByAdminId(int id)
+        {
+            var admin = _userContext.Users.Find(id);
+            var company = _companyContext.Companies.FirstOrDefault(c=> c.Id == admin.CompanyId);
+
+
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(company);
         }
 
 

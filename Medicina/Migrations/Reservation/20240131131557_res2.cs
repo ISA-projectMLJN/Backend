@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medicina.Migrations.Reservation
 {
-    public partial class res : Migration
+    public partial class res2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,7 +19,8 @@ namespace Medicina.Migrations.Reservation
                     IsCollected = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
-                    Deadline = table.Column<DateTime>(nullable: false)
+                    Deadline = table.Column<DateTime>(nullable: false),
+                    Time = table.Column<TimeSpan>(nullable: false)
                 },
                 constraints: table =>
                 {
