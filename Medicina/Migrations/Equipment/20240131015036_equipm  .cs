@@ -2,7 +2,7 @@
 
 namespace Medicina.Migrations.Equipment
 {
-    public partial class equip : Migration
+    public partial class equipm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

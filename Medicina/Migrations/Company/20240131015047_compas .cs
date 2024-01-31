@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Medicina.Migrations.Company
 {
-    public partial class compa : Migration
+    public partial class compas : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,8 +18,8 @@ namespace Medicina.Migrations.Company
                     Description = table.Column<string>(nullable: true),
                     AverageRating = table.Column<double>(nullable: false),
                     EquipmentId = table.Column<int>(nullable: true),
-                    OpeningTime = table.Column<TimeSpan>(nullable: false),
-                    ClosingTime = table.Column<TimeSpan>(nullable: false)
+                    OpeningTime = table.Column<DateTime>(nullable: false),
+                    ClosingTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Medicina.Migrations.Person
+namespace Medicina.Migrations
 {
     [DbContext(typeof(PersonContext))]
-    [Migration("20240130182231_person")]
-    partial class person
+    [Migration("20240131015011_persons")]
+    partial class persons
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
