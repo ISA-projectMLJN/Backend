@@ -119,6 +119,10 @@ namespace Medicina.Controllers
             res.IsCollected = true;
             var eq = _equipmentContext.Equipment.FirstOrDefault(e => e.Id == res.EquipmentId);
             eq.Count -= res.EquipmentCount;
+            if(eq.Count < 0)
+            {
+                return Ok(false);
+            }
             _appointmentContext.Update(app);
             _reservationContext.Update(res);
             _equipmentContext.Update(eq);

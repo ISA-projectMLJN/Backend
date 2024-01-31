@@ -83,6 +83,22 @@ namespace Medicina.Controllers
                 return BadRequest("Appointment is outside of working hours.");
             }
 
+            var adminsAppointments = _appointmentContext.Appointments
+                .Where(e => e.AdministratorsId == admin.UserID)
+                .ToList();
+            var allAppointments = _appointmentContext.Appointments.ToList();
+
+            foreach (var app in allAppointments)
+            {
+                if ((app.Start <= newAppointment.Start && app.EndTime >= newAppointment.EndTime) ||
+                    (app.Start >= newAppointment.Start && app.EndTime <= newAppointment.EndTime) ||
+                    (app.Start < newAppointment.EndTime && app.EndTime > newAppointment.Start))
+                {
+                    return BadRequest("Appointment conflicts with another appointment.");
+                }
+            }
+
+
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();
             _companyContext.SaveChanges();
@@ -100,12 +116,19 @@ namespace Medicina.Controllers
                 return NotFound();
             }
 
-            // Assuming there's a property like UserId in your Appointment model
-            //appointment.UserId = userId;
+            var equipment = _equipmentContext.Equipment.Find(reservation.EquipmentId);
+            var reservationsWithSameEquipment = _reservationContext.Reservations.Where(reservation => reservation.EquipmentId == equipment.Id && reservation.IsCollected== false).ToList();
+            var sum = 0;
+            foreach(var res in reservationsWithSameEquipment)
+            {
+                sum += res.EquipmentCount;
+            }
+            if((sum + reservation.EquipmentCount) > equipment.Count)
+            {
+                return BadRequest("Not enough equipment pieces, try reserving less.");
+            }
 
-            // Set the appointment as reserved
-            //dodavanje rezervacije 
-            
+            reservation.Deadline = appointment.EndTime;
             _reservationContext.Reservations.Add(reservation);
             _reservationContext.SaveChanges();
 
