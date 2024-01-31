@@ -43,7 +43,7 @@ namespace Medicina.MailUtil
             mailData.To.Add(person.Email);
             //mailData.EmailToName = person.Name + " " + person.Surname;
             mailData.Subject = "Confirmation";
-            mailData.Body = "Saljemo vam potvrdu da se rezervisana oprema preuzela!" ;
+            mailData.Body = "http://localhost:4200/map";
             SendMail(mailData, new CancellationToken());
 
 

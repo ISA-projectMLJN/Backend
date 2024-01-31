@@ -15,7 +15,7 @@ namespace Medicina
     using Microsoft.AspNetCore.Identity;
     using Medicina.MailUtil;
     using Microsoft.OpenApi.Models;
-
+    using Medicina.Services;
 
     public class Startup
     {
@@ -29,6 +29,8 @@ namespace Medicina
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<ICoordinateGeneratorService, CoordinateGeneratorService>();
+            services.AddSingleton<RabbitMQService>();
             services.AddCors(options =>
             {
                 options.AddPolicy(name: "AllowOrigin", builder =>
@@ -70,6 +72,7 @@ namespace Medicina
             services.AddDbContext<CompanyRateContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<AppointmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<ReservationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<EquipmentTrackingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
         }
 
 
