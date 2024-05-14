@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Medicina.MailUtil;
 using System;
 using Medicina.MailUtil;
+using Medicina.Service;
+using Microsoft.Extensions.Options;
 
 namespace Medicina.Controllers
 {
@@ -22,13 +24,14 @@ namespace Medicina.Controllers
         private readonly IConfiguration _config;
         public readonly PersonContext _personContext;
         public readonly UserContext _userContext;
-        private readonly Medicina.MailUtil.IMailService _mailService;
-        public PersonController(IConfiguration config, PersonContext personContext, UserContext userContext, Medicina.MailUtil.IMailService mailService)
+        private readonly IOptions<MailSettings> _mailSettingsOptions;
+        public PersonController(IOptions<MailSettings> mailSettingsOptions, IConfiguration config, PersonContext personContext, UserContext userContext)
         {
             _config = config;
             _personContext = personContext;
             _userContext = userContext;
-            _mailService = mailService;
+            _mailSettingsOptions = mailSettingsOptions;
+
         }
         [AllowAnonymous]
         [HttpPost("CreatePerson")]
@@ -52,8 +55,12 @@ namespace Medicina.Controllers
             
             _userContext.Add(user);
             _userContext.SaveChanges();
-            _mailService.SendActivationMail(person);
-            
+
+            EmailService emailService = new EmailService(_mailSettingsOptions);
+            string body = "http://localhost:4200/ActivateProfile/" + person.ActivationLink;
+            emailService.SendEmailAsync(person.Email, "Your activation Link", body);
+
+
 
             return Ok("Succes from Create Method");
         }
@@ -150,6 +157,9 @@ namespace Medicina.Controllers
 
             return Ok();
         }
+       
     }
+
 }
+
 

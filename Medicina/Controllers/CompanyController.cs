@@ -118,13 +118,13 @@ namespace Medicina.Controllers
         public ActionResult<Company> GetCompanyByAdminId(int id)
         {
             var admin = _userContext.Users.Find(id);
-            var company = _companyContext.Companies.FirstOrDefault(c=> c.Id == admin.CompanyId);
+            var company = _companyContext.Companies.FirstOrDefault();
 
 
-            if (company == null)
-            {
-                return NotFound();
-            }
+          //  if (company == null)
+           // {
+           //     return NotFound();
+           // }
 
             return Ok(company);
         }

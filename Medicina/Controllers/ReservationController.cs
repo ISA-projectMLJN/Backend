@@ -22,16 +22,14 @@ namespace Medicina.Controllers
         public readonly CompanyContext _companyContext;
         public readonly ReservationContext _reservationContext;
         public readonly UserContext _userContext;
-        public readonly IMailService _mailService;
         public readonly PersonContext _personContext;
-        public ReservationController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, IMailService mailService, PersonContext personContext)
+        public ReservationController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
             _companyContext = companyContext;
             _reservationContext = reservationContext;
             _userContext = userContext;
-            _mailService = mailService;
             _personContext = personContext;
         }
 
@@ -134,10 +132,7 @@ namespace Medicina.Controllers
             var person = _personContext.Persons.FirstOrDefault(p => p.UserID == res.UserId);
 
             // Pozovi metodu za slanje potvrde mejla ako je pronađena osoba
-            if (person != null)
-            {
-                _mailService.SendConfirmationMail(person);
-            }
+            
 
             return Ok(true);
         }

@@ -115,18 +115,7 @@ namespace Medicina.Controllers
             {
                 return NotFound();
             }
-
-            var equipment = _equipmentContext.Equipment.Find(reservation.EquipmentId);
-            var reservationsWithSameEquipment = _reservationContext.Reservations.Where(reservation => reservation.EquipmentId == equipment.Id && reservation.IsCollected== false).ToList();
-            var sum = 0;
-            foreach(var res in reservationsWithSameEquipment)
-            {
-                sum += res.EquipmentCount;
-            }
-            if((sum + reservation.EquipmentCount) > equipment.Count)
-            {
-                return BadRequest("Not enough equipment pieces, try reserving less.");
-            }
+            
 
             reservation.Deadline = appointment.EndTime;
             _reservationContext.Reservations.Add(reservation);

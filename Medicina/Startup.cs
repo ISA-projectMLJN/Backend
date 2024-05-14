@@ -70,7 +70,6 @@ namespace Medicina
 
         services.AddControllers();
             services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
-            services.AddTransient<IMailService, MailService>();
             services.AddDbContext<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<PersonContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<EquipmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
