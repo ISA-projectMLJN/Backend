@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|c:\\users\\aleksandra\\desktop\\isa\\backend\\medicina\\service\\qrcodeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|solutionrelative:medicina\\service\\qrcodeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|c:\\users\\aleksandra\\desktop\\isa\\backend\\medicina\\controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|solutionrelative:medicina\\controllers\\reservationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|c:\\users\\aleksandra\\desktop\\isa\\backend\\medicina\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|solutionrelative:medicina\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|c:\\users\\aleksandra\\desktop\\isa\\backend\\medicina\\models\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|solutionrelative:medicina\\models\\reservation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|c:\\users\\aleksandra\\desktop\\isa\\backend\\medicina\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EAE40365-8861-4FE6-8399-0046ED9BE29A}|Medicina\\Medicina.csproj|solutionrelative:medicina\\models\\appointment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "QRCodeService.cs",
-              "DocumentMoniker": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Service\\QRCodeService.cs",
-              "RelativeDocumentMoniker": "Medicina\\Service\\QRCodeService.cs",
-              "ToolTip": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Service\\QRCodeService.cs",
-              "RelativeToolTip": "Medicina\\Service\\QRCodeService.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAQwCcAAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "AppointmentController.cs",
+              "DocumentMoniker": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Controllers\\AppointmentController.cs",
+              "RelativeDocumentMoniker": "Medicina\\Controllers\\AppointmentController.cs",
+              "ToolTip": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Controllers\\AppointmentController.cs",
+              "RelativeToolTip": "Medicina\\Controllers\\AppointmentController.cs",
+              "ViewState": "AQIAAH4AAAAAAAAAAAAowJMAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T13:32:13.025Z",
+              "WhenOpened": "2024-06-06T12:12:02.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Appointment.cs",
+              "DocumentMoniker": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Models\\Appointment.cs",
+              "RelativeDocumentMoniker": "Medicina\\Models\\Appointment.cs",
+              "ToolTip": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Models\\Appointment.cs",
+              "RelativeToolTip": "Medicina\\Models\\Appointment.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBQAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-06T12:10:54.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Reservation.cs",
+              "DocumentMoniker": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Models\\Reservation.cs",
+              "RelativeDocumentMoniker": "Medicina\\Models\\Reservation.cs",
+              "ToolTip": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Models\\Reservation.cs",
+              "RelativeToolTip": "Medicina\\Models\\Reservation.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAUAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-06T12:10:45.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReservationController.cs",
+              "DocumentMoniker": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Controllers\\ReservationController.cs",
+              "RelativeDocumentMoniker": "Medicina\\Controllers\\ReservationController.cs",
+              "ToolTip": "C:\\Users\\Aleksandra\\Desktop\\ISA\\Backend\\Medicina\\Controllers\\ReservationController.cs",
+              "RelativeToolTip": "Medicina\\Controllers\\ReservationController.cs",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAmwKYAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-06T12:06:04.406Z",
               "EditorCaption": ""
             }
           ]

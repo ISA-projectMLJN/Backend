@@ -1,9 +1,12 @@
 ﻿using Medicina.Context;
+using Medicina.MailUtil;
 using Medicina.Models;
+using Medicina.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +24,10 @@ namespace Medicina.Controllers
         public readonly ReservationContext _reservationContext;
         public readonly UserContext _userContext;
         public readonly PersonContext _presonContext;
-        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
+
+        private readonly IOptions<MailSettings> _mailSettingsOptions;
+
+        public AppointmentController(IOptions<MailSettings> mailSettingsOptions, AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
@@ -29,6 +35,8 @@ namespace Medicina.Controllers
             _reservationContext = reservationContext;
             _userContext = userContext; 
             _presonContext = personContext;
+            _mailSettingsOptions = mailSettingsOptions;
+
         }
         [HttpGet("GetAppointmentsByCompanyId/{id}")]
         public ActionResult<Appointment> GetAppointmentsByCompanyId(int id)
@@ -118,14 +126,24 @@ namespace Medicina.Controllers
             
 
             reservation.Deadline = appointment.EndTime;
+            reservation.Name = "Lidija";
+            reservation.Surname = "Djurdjic";
             _reservationContext.Reservations.Add(reservation);
             _reservationContext.SaveChanges();
 
             appointment.Status = AppointmentStatus.Reserved;
             appointment.ReservationId = reservation.Id;
+          
             _appointmentContext.Entry(appointment).State = EntityState.Modified;
             _appointmentContext.SaveChanges();
 
+
+            EmailService emailService = new EmailService(_mailSettingsOptions);
+            string body = "You have succesfuly reserved appointment. Here is your qr code";
+
+            
+            emailService.SendEmailWithQrCodeAsync("lidija.dj17@gmail.com", "Your qr code", body, reservation);
+            
             return Ok(appointment);
         }
         [HttpGet("GetAppointmentsForDay")]

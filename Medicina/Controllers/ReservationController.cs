@@ -81,6 +81,33 @@ namespace Medicina.Controllers
             else return Ok(false);
         }
 
+        [HttpPut("cancelReservation/{reservationId}")]
+        public ActionResult CancelReservation(int reservationId)
+        {
+            var res = _reservationContext.Reservations.Find(reservationId);
+            var app = _appointmentContext.Appointments.FirstOrDefault(u => u.ReservationId == res.Id);
+
+            var user = _userContext.Users.Find(res.UserId);
+
+            if (res.Deadline <= DateTime.Now.AddDays(1))
+            {
+                user.PenaltyScore += 2;
+            }
+            else
+            {
+                user.PenaltyScore += 1;
+            }
+            app.ReservationId = 0;
+            app.Status = AppointmentStatus.Available;
+            _userContext.Update(user);
+            _reservationContext.Remove(res);
+            _appointmentContext.Update(app);
+            _userContext.SaveChanges();
+            _reservationContext.SaveChanges();
+            _appointmentContext.SaveChanges();
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public ActionResult<ReservationWithEquipment> GetReservationById(int id)
         {
@@ -117,7 +144,7 @@ namespace Medicina.Controllers
             res.IsCollected = true;
             var eq = _equipmentContext.Equipment.FirstOrDefault(e => e.Id == res.EquipmentId);
             eq.Count -= res.EquipmentCount;
-            if(eq.Count < 0)
+            if (eq.Count < 0)
             {
                 return Ok(false);
             }
@@ -132,10 +159,26 @@ namespace Medicina.Controllers
             var person = _personContext.Persons.FirstOrDefault(p => p.UserID == res.UserId);
 
             // Pozovi metodu za slanje potvrde mejla ako je pronađena osoba
-            
+
 
             return Ok(true);
         }
+
+        [HttpGet("GetAllFutureReservations}")]
+        public ActionResult<IEnumerable<Reservation>> GetAllFutureReservations()
+        {
+            var futureReservations = _reservationContext.Reservations
+                .Where(r => r.Deadline > DateTime.Now)
+                .ToList();
+
+            if (futureReservations == null || futureReservations.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(futureReservations);
+        }
+
 
 
 

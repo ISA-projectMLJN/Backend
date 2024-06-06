@@ -3,45 +3,44 @@ using Newtonsoft.Json;
 using System.Net.NetworkInformation;
 using System;
 using ZXing;
-using System.Drawing;
-using System.IO;
+using SkiaSharp;
+using ZXing.SkiaSharp.Rendering;
 
 namespace Medicina.Service
 {
     public class QRCodeService
     {
 
-        public Bitmap GenerateQrCode(Reservation reservation)
+        public byte[] GenerateQrCode(Reservation reservation)
         {
-            /*Reservation reservation = new Reservation
+            try
             {
-                Id = 1,
-                UserId = 101,
-                EquipmentId = 201,
-                EquipmentCount = 2,
-                IsCollected = false,
-                Name = "John",
-                Surname = "Doe",
-                Deadline = DateTime.Now.AddDays(7)
-            };*/
+                string reservationJson = JsonConvert.SerializeObject(reservation);
 
-            string reservationJson = JsonConvert.SerializeObject(reservation);
-
-            BarcodeWriter writer = new BarcodeWriter
-            {
-                Format = BarcodeFormat.QR_CODE,
-                Options = new ZXing.Common.EncodingOptions
+                var writer = new BarcodeWriter<SKBitmap>
                 {
-                    Width = 300,  // Set width of the QR code
-                    Height = 300, // Set height of the QR code
-                    Margin = 0    // Set margin of the QR code
+                    Format = BarcodeFormat.QR_CODE,
+                    Options = new ZXing.Common.EncodingOptions
+                    {
+                        Width = 300,
+                        Height = 300,
+                        Margin = 0
+                    },
+                    Renderer = new SKBitmapRenderer()
+                };
+
+                using (var bitmap = writer.Write(reservationJson))
+                using (var image = SKImage.FromBitmap(bitmap))
+                using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+                {
+                    return data.ToArray();
                 }
-            };
-
-            Bitmap qrBitmap = writer.Write(reservationJson);
-
-
-            return qrBitmap;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error generating QR code: {ex.Message}");
+                throw;
+            }
         }
     }
 }
