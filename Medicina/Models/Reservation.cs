@@ -8,15 +8,17 @@ namespace Medicina.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int EquipmentId { get; set; }
+        public int CompanyId { get; set; }
         public int EquipmentCount { get; set; }
         public bool IsCollected { get; set; }
         public string? Name { get; set; }
         public string? Surname { get; set; }
         public DateTime Deadline { get; set; }
         public Reservation() { }
-        public Reservation(int userId, int equipmentId, int count, DateTime date) {
+        public Reservation(int userId, int equipmentId, int companyId,int count, DateTime date) {
             UserId = userId;
             EquipmentId = equipmentId;
+            CompanyId = companyId;
             EquipmentCount = count;
             IsCollected = false;
             Deadline = date;

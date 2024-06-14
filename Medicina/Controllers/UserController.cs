@@ -128,6 +128,21 @@ namespace Medicina.Controllers
 
             return Ok(users);
         }
+        [HttpGet("GetAllCompanyAdmins/{companyId}")]
+        public ActionResult<IEnumerable<User>> GetAllCompanyAdmins(int companyId)
+        {
+            var users = _userContext.Users
+                                    .Where(u => u.UserRole == Role.CAMPAIN_ADMIN && u.CompanyId == companyId)
+                                    .ToList();
+
+            if (!users.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(users);
+        }
+
 
         [HttpGet("GetUsersWhoReserved/{companyId}")]
         public ActionResult<IEnumerable<User>> GetUsersWhoReserved(int companyId)

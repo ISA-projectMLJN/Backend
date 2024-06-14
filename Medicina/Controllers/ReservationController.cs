@@ -23,6 +23,7 @@ namespace Medicina.Controllers
         public readonly ReservationContext _reservationContext;
         public readonly UserContext _userContext;
         public readonly PersonContext _personContext;
+       // public readonly ComplaintContext _complaintContext;
         public ReservationController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
         {
             _appointmentContext = appointmentContext;
@@ -31,6 +32,7 @@ namespace Medicina.Controllers
             _reservationContext = reservationContext;
             _userContext = userContext;
             _personContext = personContext;
+            //_complaintContext = complaintContext;
         }
 
         [HttpGet("GetAllUncollectedReservations/{companyId}")]
@@ -81,7 +83,7 @@ namespace Medicina.Controllers
             else return Ok(false);
         }
 
-        [HttpPut("cancelReservation/{reservationId}")]
+        [HttpPut("CancelReservation/{reservationId}")]
         public ActionResult CancelReservation(int reservationId)
         {
             var res = _reservationContext.Reservations.Find(reservationId);
@@ -147,7 +149,7 @@ namespace Medicina.Controllers
             if (eq.Count < 0)
             {
                 return Ok(false);
-            }
+            } 
             _appointmentContext.Update(app);
             _reservationContext.Update(res);
             _equipmentContext.Update(eq);
@@ -163,8 +165,8 @@ namespace Medicina.Controllers
 
             return Ok(true);
         }
-
-        [HttpGet("GetAllFutureReservations}")]
+  
+        [HttpGet("GetAllFutureReservations")]
         public ActionResult<IEnumerable<Reservation>> GetAllFutureReservations()
         {
             var futureReservations = _reservationContext.Reservations
@@ -179,15 +181,34 @@ namespace Medicina.Controllers
             return Ok(futureReservations);
         }
 
+        [HttpGet("GetReservationsForCompany/{companyId}")]
+        public ActionResult<IEnumerable<Reservation>> GetReservationsForCompany(int companyId)
+        {
+            var reservations = _reservationContext.Reservations
+                .Where(r => r.CompanyId == companyId)
+                .ToList();
+
+            if (reservations == null || reservations.Count == 0)
+            {
+                return NotFound("No reservations found for the specified company.");
+            }
+
+            return Ok(reservations);
+        }
+       
+
+
+    }
 
 
 
-        // Klasa koja predstavlja rezervaciju sa pripadajućom opremom
-        public class ReservationWithEquipment
+
+
+    // Klasa koja predstavlja rezervaciju sa pripadajućom opremom
+    public class ReservationWithEquipment
         {
             public Reservation Reservation { get; set; }
             public Equipment Equipment { get; set; }
         }
     }
 
-}

@@ -1,11 +1,27 @@
-﻿namespace Medicina.Models
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Medicina.Models
 {
+    public enum Status { SENT, ANSWERED }
     public class Complaint
     {
-        private int Id { get; set; }
-        private int CompanyId { get; set; }
-        private int? AdministratorId { get; set; }
-        private string ComplaintText { get; set; }
+        public int Id { get; set; }
+        public int CompanyId { get; set; }
+        public int? AdministratorId { get; set; }
+        public string ComplaintText { get; set; }
         public int UserId { get; set; }
+        public string Answer {  get; set; }
+        public Status StatusComplaint { get; set; }
+        public Complaint() { }
+
+        public Complaint(int id, int companyId, int administratorId, string complaintText, int userId)
+        {
+            Id = id;
+            CompanyId = companyId;
+            AdministratorId = administratorId;
+            ComplaintText = complaintText;
+            UserId = userId;
+        }
     }
 }

@@ -56,6 +56,28 @@ namespace Medicina.Service
                 message.Dispose();
             }
         }
+        public async Task SendEmailAnswerAsync(string recipient, string subject, string body)
+        {
+            var message = new MailMessage(_senderEmail, recipient, subject, body)
+            {
+                IsBodyHtml = true
+            };
+
+            try
+            {
+                await _smtpClient.SendMailAsync(message);
+                Console.WriteLine("Answer on complaint  sent successfully!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Failed to send answer email: {ex.Message}");
+            }
+            finally
+            {
+                message.Dispose();
+            }
+        }
+
 
         public async Task SendEmailWithQrCodeAsync(string recipient, string subject, string body, Reservation reservation)
         {
