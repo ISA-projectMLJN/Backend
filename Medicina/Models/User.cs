@@ -2,7 +2,6 @@
 
 namespace Medicina.Models
 {
-
     public enum Role { REGISTER_USER, CAMPAIN_ADMIN, SYSTEM_ADMIN, UNAUTHENTICAN_USER }
 
     public class User

@@ -118,6 +118,14 @@ namespace Medicina.Controllers
         public ActionResult<Company> GetCompanyByAdminId(int id)
         {
             var admin = _userContext.Users.Find(id);
+
+            // Check if the admin user was found
+            if (admin == null)
+            {
+                return NotFound($"User with ID {id} not found.");
+            }
+
+
             var company = _companyContext.Companies.FirstOrDefault(c=> c.Id == admin.CompanyId);
 
 

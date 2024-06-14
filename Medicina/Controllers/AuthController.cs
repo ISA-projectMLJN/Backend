@@ -9,6 +9,7 @@ using Medicina.DTO;
 using Medicina.Context;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Cors;
+using System.Linq;
 
 namespace Medicina.Controllers
 {
@@ -20,15 +21,15 @@ namespace Medicina.Controllers
         //private readonly IUserService userService;
         private readonly IConfiguration _config;
         public readonly PersonContext _personContext;
+        public readonly UserContext _userContext;
 
-        public AuthController(PersonContext personContext, IConfiguration projectConfig)
+        public AuthController(PersonContext personContext, UserContext userContext, IConfiguration projectConfig)
         {
             _personContext = personContext;
+            _userContext = userContext;
             _config = projectConfig;
 
         }
-
-
 
 
 
@@ -36,35 +37,41 @@ namespace Medicina.Controllers
         [HttpPost]
         public IActionResult Login(LoginDTO loginDTO)
         {
-
-
             if (loginDTO == null || loginDTO.Email == null || loginDTO.Password == null)
             {
                 return BadRequest("Invalid client request");
             }
 
+            // Retrieve the person from the database
             Person person = _personContext.GetUserWithEmailAndPassword(loginDTO.Email, loginDTO.Password);
             if (person == null || loginDTO.Password != person.Password)
             {
                 return BadRequest("Invalid credentials!");
             }
+
             if (!person.IsActivated)
             {
                 return BadRequest("Account not activated!");
             }
-            //if (person == null || !BCrypt.Net.BCrypt.Verify(loginDTO.Password, person.Password))
-            //{
-            //  return BadRequest("Invalid credentials!");
-            //}
+
+            // Retrieve the corresponding user from the Users table
+            User user = _userContext.Users.FirstOrDefault(u => u.Email == person.Email);
+            if (user == null)
+            {
+                return BadRequest("User not found in Users table!");
+            }
+
+            // Log the retrieved user details
+            Console.WriteLine($"Retrieved User - ID: {user.UserID}, Email: {user.Email}");
 
             Claim[] claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, "hkz2Ba9cf2Q4lPjAf6mS"),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                new Claim("Id",person.UserID.ToString()),
-                new Claim("Email",person.Email)
-            };
+        new Claim(JwtRegisteredClaimNames.Sub, "hkz2Ba9cf2Q4lPjAf6mS"),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+        new Claim("Id", user.UserID.ToString()), // Use UserID from Users table
+        new Claim("Email", user.Email)
+    };
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("zxzxzxzxzxrltCPJ9e6jzxczckCq5nrPP5A"));
             SigningCredentials signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -73,5 +80,6 @@ namespace Medicina.Controllers
             TokenDTO tokenDTO = new TokenDTO() { Token = accessToken };
             return Ok(tokenDTO);
         }
+
     }
 }

@@ -20,13 +20,15 @@ namespace Medicina.Controllers
     {
         private readonly IConfiguration _config;
         public readonly UserContext _userContext;
+        public readonly PersonContext _personContext;
         public readonly ReservationContext _resContext;
         public readonly AppointmentContext _appContext;
      
-        public UserController(IConfiguration config, UserContext userContext, ReservationContext resContext, AppointmentContext appContext)
+        public UserController(IConfiguration config, UserContext userContext, PersonContext personContext, ReservationContext resContext, AppointmentContext appContext)
         {
             _config = config;
             _userContext = userContext;
+            _personContext = personContext;
             _resContext = resContext;
             _appContext = appContext;
         }
@@ -45,28 +47,7 @@ namespace Medicina.Controllers
             return Ok("Succes from Create Method");
         }
 
-       /* [AllowAnonymous]
-        [HttpPost("LoginUser")]
-        public IActionResult Login(LogIn user)
-        {
-            var userAvailable = _userContext.Users.Where(u => u.Email == user.Email && u.Password == user.Password).FirstOrDefault();
-            if (userAvailable != null)
-            {
-                return Ok(new JwtService(_config).GenerateToken(
-                    userAvailable.UserID.ToString(),
-                    userAvailable.Email,
-                    userAvailable.Password,
-                    userAvailable.Name,
-                    userAvailable.Surname
-
-                    ));
-            }
-            else
-            {
-                return Ok("Fail");
-            }
-        }
-       */
+ 
         [HttpGet("GetUsersByRole")]
         public IActionResult GetUsersByRole()
         {
@@ -93,6 +74,25 @@ namespace Medicina.Controllers
 
             return Ok(users);
         }
+
+        [HttpGet("GetPersonByUserId/{userId}")]
+        public ActionResult<Person> GetPersonByUserId(int userId)
+        {
+            var user = _userContext.Users.Find(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            var person = _personContext.Persons.FirstOrDefault(p => p.Email == user.Email);
+            if (person == null)
+            {
+                return NotFound("Person not found");
+            }
+
+            return Ok(person);
+        }
+
 
         [HttpPost("CreateSystemAdmin")]
         public IActionResult CreateSA([FromBody] User user)

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Medicina.MailUtil;
 using System;
 using Medicina.MailUtil;
+using System.Linq;
 
 namespace Medicina.Controllers
 {
@@ -112,26 +113,36 @@ namespace Medicina.Controllers
         [HttpPatch("UpdateRegisteredUser")]
         public ActionResult<Person> UpdateRegisteredUser([FromBody] Person updatedPerson)
         {
+            if (updatedPerson == null)
+            {
+                return BadRequest("Updated person cannot be null");
+            }
+
             var existingPerson = _personContext.Persons.Find(updatedPerson.UserID);
-            var existingUser = _userContext.Users.Find(updatedPerson.UserID);
+            var existingUser = _userContext.Users.SingleOrDefault(user => user.Email == updatedPerson.Email);
 
             if (existingPerson == null)
             {
-                return NotFound();
+                return NotFound("Person not found");
             }
 
+            if (existingUser == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Update properties
             _personContext.Entry(existingPerson).CurrentValues.SetValues(updatedPerson);
             existingUser.Password = updatedPerson.Password;
-            existingUser.UserRole = Role.SYSTEM_ADMIN;
             existingUser.Name = updatedPerson.Name;
             existingUser.Surname = updatedPerson.Surname;
 
-            _userContext.Entry(existingUser).CurrentValues.SetValues(existingUser);
             _personContext.SaveChanges();
             _userContext.SaveChanges();
 
             return Ok(existingPerson);
         }
+
 
         [HttpPut("ActivateProfile/{link}")]
         public ActionResult<Person> ActivateUser([FromRoute] string link)
