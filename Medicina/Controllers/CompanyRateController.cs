@@ -26,13 +26,17 @@ namespace Medicina.Controllers
             _companyContext = companyContext;
         }
 
-        [HttpGet("GetCompanyRateById/{id}")]
-        public ActionResult<Company> GetCompanyRateById(int id)
+
+
+        // Update the API method to include userId in fetching rates
+        [HttpGet("GetCompanyRateById/{companyId}/{userId}")]
+        public ActionResult<IEnumerable<CompanyRate>> GetCompanyRateById(int companyId, int userId)
         {
-            var rateList = _companyrateContext.CompanyRates.Where(e => e.CompanyId == id).ToList();
+            var rateList = _companyrateContext.CompanyRates
+                .Where(e => e.CompanyId == companyId && e.UserId == userId)
+                .ToList();
 
-
-            if (rateList == null)
+            if (!rateList.Any())
             {
                 return NotFound();
             }
@@ -40,22 +44,38 @@ namespace Medicina.Controllers
             return Ok(rateList);
         }
 
-        [HttpPost("RateCompany/{selectedCompanyId}")]
-        public IActionResult Rate(int selectedCompanyId, CompanyRate rate)
+        // Update the API method to ensure userId is passed when posting rates
+        [HttpPost("RateCompany/{selectedCompanyId}/{userId}")]
+        public IActionResult Rate(int selectedCompanyId, int userId, CompanyRate rate)
         {
-            // Proceed with rating
-            Company company = _companyContext.Companies.FirstOrDefault(u => u.Id == selectedCompanyId);
-            if (company == null)
+            rate.UserId = userId; // Make sure userId is assigned from the parameter
+
+            var existingRate = _companyrateContext.CompanyRates
+                .FirstOrDefault(r => r.CompanyId == selectedCompanyId && r.UserId == userId);
+
+            if (existingRate != null)
             {
-                return NotFound("Company not found.");
+                // Update the existing rate
+                existingRate.Rate = rate.Rate;
+                existingRate.HighQuality = rate.HighQuality;
+                existingRate.LowQuality = rate.LowQuality;
+                existingRate.Cheap = rate.Cheap;
+                existingRate.Expensive = rate.Expensive;
+                existingRate.WideSelection = rate.WideSelection;
+                existingRate.LimitedSelection = rate.LimitedSelection;
+                existingRate.Description = rate.Description;
+
+                _companyrateContext.SaveChanges();
+
+                return Ok("Rating updated successfully");
             }
 
-            // Save the rating
             _companyrateContext.Add(rate);
             _companyrateContext.SaveChanges();
 
             return Ok("Rating added successfully");
         }
+
 
 
     }
