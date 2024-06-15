@@ -1,6 +1,7 @@
 ﻿using Medicina.Context;
 using Medicina.DTO;
 using Medicina.MailUtil;
+using Medicina.Migrations;
 using Medicina.Models;
 using Medicina.Service;
 using Microsoft.AspNetCore.Cors;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,13 +24,16 @@ namespace Medicina.Controllers
         private readonly ComplaintContext _complaintContext;
         private readonly UserContext _userContext;
         private readonly IOptions<MailSettings> _mailSettingsOptions;
+        private readonly ReservationContext _reservationContext;
+        private readonly AppointmentContext _appointmentContext;
 
-
-        public ComplaintController(ComplaintContext cContext, UserContext uContext, IOptions<MailSettings> mailSettingsOptions)
+        public ComplaintController(ComplaintContext cContext, UserContext uContext, IOptions<MailSettings> mailSettingsOptions, ReservationContext reservationContext, AppointmentContext appointmentContext)
         {
             _complaintContext = cContext;
             _userContext = uContext;
             _mailSettingsOptions = mailSettingsOptions;
+            _reservationContext = reservationContext;
+            _appointmentContext = appointmentContext;
         }
 
         [HttpPost("SubmitComplaint")]
@@ -39,6 +44,39 @@ namespace Medicina.Controllers
                 return BadRequest("Invalid complaint data.");
             }
             Console.WriteLine($"Received complaint: {complaint.ComplaintText}");
+
+            if(complaint.AdministratorId == null)
+            {
+                Reservation reservation = _reservationContext.Reservations.FirstOrDefault(r => r.UserId == complaint.UserId && r.CompanyId == complaint.CompanyId);
+                if(reservation == null)
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                List<Reservation> reservations = _reservationContext.Reservations
+                    .Where(r => r.UserId == complaint.UserId )
+                    .ToList();
+                bool validComplaint = false;
+                foreach(Reservation reservation in reservations)
+                {
+                    Appointment appointment = _appointmentContext.Appointments.FirstOrDefault(a => a.ReservationId == reservation.Id);
+                    if (appointment == null){
+                        continue;
+                    }
+                    if(appointment.AdministratorsId == complaint.AdministratorId)
+                    {
+                        validComplaint = true;
+                        break;
+                    }
+                }
+
+                if(validComplaint == false)
+                {
+                    return BadRequest();
+                }
+            }
 
             // Dodavanje žalbe u kontekst
 
