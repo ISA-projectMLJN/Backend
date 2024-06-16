@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Medicina.Controllers
 {
@@ -18,28 +20,37 @@ namespace Medicina.Controllers
         public readonly AppointmentContext _appointmentContext;
         public readonly EquipmentContext _equipmentContext;
         public readonly CompanyContext _companyContext;
-        public readonly ReservationContext _reservationContext;
+        public readonly PickupReservationContext _reservationContext;
         public readonly UserContext _userContext;
         public readonly PersonContext _presonContext;
-        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, ReservationContext reservationContext, UserContext userContext, PersonContext personContext)
+        public readonly QRService _qrService;
+        private readonly MailgunService _mailgunService;
+
+
+        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, PickupReservationContext reservationContext, UserContext userContext, PersonContext personContext, QRService qrservice, MailgunService mailgunService)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
             _companyContext = companyContext;
             _reservationContext = reservationContext;
-            _userContext = userContext; 
+            _userContext = userContext;
             _presonContext = personContext;
+            _qrService = qrservice;
+            _mailgunService = mailgunService;
         }
-        [HttpGet("GetAppointmentsByCompanyId/{id}")]
-        public ActionResult<Appointment> GetAppointmentsByCompanyId(int id)
-        {
-            var AppointmentList = _appointmentContext.Appointments.Where(e => e.CompanyId == id && e.Status == AppointmentStatus.Available).ToList();
 
-            if (AppointmentList == null)
+        [HttpGet("GetAppointmentsByCompanyId/{id}")]
+        public ActionResult<IEnumerable<Appointment>> GetAppointmentsByCompanyId(int id)
+        {
+            var appointmentList = _appointmentContext.Appointments
+                .Where(e => e.CompanyId == id && e.Status == AppointmentStatus.Available)
+                .ToList();
+
+            if (appointmentList == null || appointmentList.Count == 0)
             {
                 return NotFound();
             }
-            return Ok(AppointmentList);
+            return Ok(appointmentList);
         }
 
         [HttpGet("GetAllAppointments")]
@@ -47,7 +58,7 @@ namespace Medicina.Controllers
         {
             var appointments = _appointmentContext.Appointments.ToList();
 
-            if (appointments == null)
+            if (appointments == null || appointments.Count == 0)
             {
                 return NotFound();
             }
@@ -56,22 +67,20 @@ namespace Medicina.Controllers
         }
 
         [HttpGet("GetAppointmentsByDateAndWorking/{id}/{date}")]
-        public ActionResult<Appointment> GetAppointmentsByDateAndWorking(int id, DateTime date)
+        public ActionResult<IEnumerable<Appointment>> GetAppointmentsByDateAndWorking(int id, DateTime date)
         {
-            // Filtriraj termine za određeni datum
+            // Filter appointments for a specific date
             var appointmentList = _appointmentContext.Appointments
                 .Where(e => e.CompanyId == id && e.Start.Date == date.Date)
                 .ToList();
 
-            if (appointmentList == null)
+            if (appointmentList == null || appointmentList.Count == 0)
             {
                 return NotFound();
             }
 
             return Ok(appointmentList);
         }
-
-
 
         [HttpPost("AddAppointment")]
         public ActionResult<Appointment> AddAppointment([FromBody] Appointment newAppointment)
@@ -90,7 +99,7 @@ namespace Medicina.Controllers
             newAppointment.EndTime = newAppointment.Start.AddMinutes(newAppointment.Duration);
             TimeSpan startTimeOfDay = new TimeSpan(newAppointment.Start.TimeOfDay.Hours, newAppointment.Start.TimeOfDay.Minutes, newAppointment.Start.TimeOfDay.Seconds);
             TimeSpan endTimeOfDay = new TimeSpan(newAppointment.EndTime.TimeOfDay.Hours, newAppointment.EndTime.TimeOfDay.Minutes, newAppointment.EndTime.TimeOfDay.Seconds);
-            
+
             if (startTimeOfDay < company.OpeningTime || endTimeOfDay > company.ClosingTime)
             {
                 return BadRequest("Appointment is outside of working hours.");
@@ -111,57 +120,101 @@ namespace Medicina.Controllers
                 }
             }
 
-
             _appointmentContext.Appointments.Add(newAppointment);
             _appointmentContext.SaveChanges();
             _companyContext.SaveChanges();
 
             return CreatedAtAction(nameof(GetAppointmentsByCompanyId), new { id = newAppointment.CompanyId }, newAppointment);
         }
-        [HttpPatch("ReserveAppointment/{id}")]
-        public IActionResult ReserveAppointment(int id, [FromBody] Reservation reservation)
-        {
-            Console.WriteLine($"Received id: {id}, userId: {reservation.UserId}");
 
-            var appointment = _appointmentContext.Appointments.Find(id);
-            if (appointment == null)
+  
+
+        [HttpGet("GetAppointmentsForDay")]
+        public ActionResult<IEnumerable<object>> GetAppointmentsForDay([FromQuery] DateTime date)
+        {
+            var appointmentsForDay = _appointmentContext.Appointments
+                .Where(a => a.Start.Date == date.Date)
+                .ToList();
+
+            return Ok(appointmentsForDay);
+        }
+        [HttpPost("pickup-reservations")]
+        public async Task<ActionResult<PickupReservation>> CreatePickupReservation([FromBody] PickupReservation newReservation)
+        {
+            if (newReservation == null || newReservation.EquipmentIds == null || !newReservation.EquipmentIds.Any())
+            {
+                return BadRequest("Invalid reservation data.");
+            }
+
+            newReservation.IsCollected = false;
+            _reservationContext.PickupReservations.Add(newReservation);
+            await _reservationContext.SaveChangesAsync();
+
+            // Generate QR code with reservation details
+            var reservationDetails = $"Reservation ID: {newReservation.Id}\nUser ID: {newReservation.UserId}\nCompany ID: {newReservation.CompanyId}\nAppointment Date: {newReservation.AppointmentDate}\nAppointment Time: {newReservation.AppointmentTime}";
+            var qrCodeImage = _mailgunService.GenerateQrCode(reservationDetails);
+
+            // Send email with QR code
+            var user = await _userContext.Users.FindAsync(newReservation.UserId);
+            if (user != null)
+            {
+                var email = user.Email;
+                var subject = "Reservation Confirmation";
+                var message = $"Your reservation has been confirmed. Details:\n{reservationDetails}";
+                await _mailgunService.SendEmailWithQrCodeAsync(email, subject, message, qrCodeImage);
+            }
+
+            return CreatedAtAction(nameof(GetPickupReservation), new { id = newReservation.Id }, newReservation);
+        }
+
+        [HttpGet("pickup-reservations/{id}")]
+        public ActionResult<PickupReservation> GetPickupReservation(int id)
+        {
+            var reservation = _reservationContext.PickupReservations.Find(id);
+
+            if (reservation == null)
             {
                 return NotFound();
             }
 
-            var equipment = _equipmentContext.Equipment.Find(reservation.EquipmentId);
-            var reservationsWithSameEquipment = _reservationContext.Reservations.Where(reservation => reservation.EquipmentId == equipment.Id && reservation.IsCollected== false).ToList();
-            var sum = 0;
-            foreach(var res in reservationsWithSameEquipment)
-            {
-                sum += res.EquipmentCount;
-            }
-            if((sum + reservation.EquipmentCount) > equipment.Count)
-            {
-                return BadRequest("Not enough equipment pieces, try reserving less.");
-            }
-
-            reservation.Deadline = appointment.EndTime;
-            _reservationContext.Reservations.Add(reservation);
-            _reservationContext.SaveChanges();
-
-            appointment.Status = AppointmentStatus.Reserved;
-            appointment.ReservationId = reservation.Id;
-            _appointmentContext.Entry(appointment).State = EntityState.Modified;
-            _appointmentContext.SaveChanges();
-
-            return Ok(appointment);
+            return Ok(reservation);
         }
-        [HttpGet("GetAppointmentsForDay")]
-        public ActionResult<IEnumerable<object>> GetAppointmentsForDay([FromQuery] DateTime date)
+
+        [HttpGet("GetExtraordinaryAppointments/{companyId}")]
+        public ActionResult<IEnumerable<Appointment>> GetExtraordinaryAppointments(int companyId, [FromQuery] DateTime date)
         {
-            var appointmentsForDay = _appointmentContext.Appointments .ToList();
+            var company = _companyContext.Companies.Find(companyId);
+            if (company == null)
+            {
+                return NotFound("Company not found");
+            }
 
-            return Ok(appointmentsForDay);
+            var openingTime = date.Date + company.OpeningTime;
+            var closingTime = date.Date + company.ClosingTime;
+
+            var regularAppointments = _appointmentContext.Appointments
+                .Where(a => a.CompanyId == companyId && a.Start.Date == date.Date)
+                .ToList();
+
+            var extraordinaryAppointments = new List<Appointment>();
+            var currentTime = openingTime;
+
+            while (currentTime < closingTime)
+            {
+                if (!regularAppointments.Any(a => a.Start <= currentTime && a.EndTime > currentTime))
+                {
+                    extraordinaryAppointments.Add(new Appointment
+                    {
+                        Start = currentTime,
+                        EndTime = currentTime.AddHours(1),
+                        CompanyId = companyId,
+                        Status = AppointmentStatus.Available
+                    });
+                }
+                currentTime = currentTime.AddHours(1);
+            }
+
+            return Ok(extraordinaryAppointments);
         }
-
-       
-
-
     }
 }

@@ -79,6 +79,10 @@ namespace Medicina
             services.AddDbContext<AppointmentContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<ReservationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<EquipmentTrackingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddDbContext<PickupReservationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
+            services.AddTransient<QRService>(); // Add this line
+            services.AddTransient<MailgunService>(); // Add this line
+
         }
 
 
