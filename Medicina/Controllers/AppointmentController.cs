@@ -42,6 +42,19 @@ namespace Medicina.Controllers
             return Ok(AppointmentList);
         }
 
+        [HttpGet("GetAllAppointments")]
+        public ActionResult<IEnumerable<Appointment>> GetAll()
+        {
+            var appointments = _appointmentContext.Appointments.ToList();
+
+            if (appointments == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(appointments);
+        }
+
         [HttpGet("GetAppointmentsByDateAndWorking/{id}/{date}")]
         public ActionResult<Appointment> GetAppointmentsByDateAndWorking(int id, DateTime date)
         {

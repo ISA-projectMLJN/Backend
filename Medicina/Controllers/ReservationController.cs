@@ -38,6 +38,20 @@ namespace Medicina.Controllers
             return Ok(hasReservation);
         }
 
+        [HttpGet("GetAllReservations")]
+        public ActionResult<IEnumerable<Reservation>> GetAll()
+        {
+            var reservations = _reservationContext.Reservations.ToList();
+
+            if (reservations == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reservations);
+        }
+
+
 
         [HttpPatch("MakeReservation/{id}")]
         public IActionResult MakeReservation(int id, [FromBody] Reservation reservation)
