@@ -9,7 +9,7 @@ namespace Medicina.Context
         {
         }
 
-        public DbSet<Pickup> Pickups { get; set; }
+        public DbSet<PickupReservation> Pickups { get; set; }
 
 
 

@@ -16,6 +16,7 @@ namespace Medicina
     using Medicina.MailUtil;
     using Microsoft.OpenApi.Models;
     using Medicina.Services;
+    using Medicina.Service;
 
     public class Startup
     {
@@ -80,8 +81,8 @@ namespace Medicina
             services.AddDbContext<ReservationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<EquipmentTrackingContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
             services.AddDbContext<PickupReservationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyDBConnection")));
-            services.AddTransient<QRService>(); // Add this line
-            services.AddTransient<MailgunService>(); // Add this line
+            services.AddTransient<QRCodeService>(); // Add this line
+            services.AddTransient<EmailService>(); // Add this line
 
         }
 

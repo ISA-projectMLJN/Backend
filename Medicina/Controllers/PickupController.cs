@@ -15,7 +15,7 @@ namespace Medicina.Controllers
         {
             _context = context;
         }
-
+/*
         // GET: api/pickup
         [HttpGet]
         public IActionResult GetPickups(string sortBy = "date")
@@ -44,6 +44,33 @@ namespace Medicina.Controllers
             }
 
             return Ok(query.ToList());
+        }*/
+
+          [HttpGet("GetUncollectedReservationsByUser/{userId}")]
+        public IActionResult GetUncollectedReservationsByUser(int userId)
+        {
+            var reservations = _context.Pickups
+                .Where(r => r.UserId == userId && !r.IsCollected)
+                .ToList();
+
+            return Ok(reservations);
+        }
+
+
+        [HttpPatch("CancelReservation/{id}")]
+        public IActionResult CancelReservation(int id)
+        {
+            var reservation = _context.Pickups.Find(id);
+            if (reservation == null)
+            {
+                return NotFound();
+            }
+
+            _context.Pickups.Remove(reservation);
+            _context.SaveChanges();
+
+            return NoContent();
         }
     }
 }
+

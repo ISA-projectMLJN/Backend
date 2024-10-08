@@ -1,9 +1,11 @@
 ﻿using Medicina.Context;
 using Medicina.Models;
+using Medicina.Service;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
@@ -23,11 +25,9 @@ namespace Medicina.Controllers
         public readonly PickupReservationContext _reservationContext;
         public readonly UserContext _userContext;
         public readonly PersonContext _presonContext;
-        public readonly QRService _qrService;
-        private readonly MailgunService _mailgunService;
+        private readonly IOptions<Medicina.MailUtil.MailSettings> _mailSettingsOptions;
 
-
-        public AppointmentController(AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, PickupReservationContext reservationContext, UserContext userContext, PersonContext personContext, QRService qrservice, MailgunService mailgunService)
+        public AppointmentController(IOptions<Medicina.MailUtil.MailSettings> mailSettingsOptions, AppointmentContext appointmentContext, EquipmentContext equipmentContext, CompanyContext companyContext, PickupReservationContext reservationContext, UserContext userContext, PersonContext personContext)
         {
             _appointmentContext = appointmentContext;
             _equipmentContext = equipmentContext;
@@ -35,8 +35,7 @@ namespace Medicina.Controllers
             _reservationContext = reservationContext;
             _userContext = userContext;
             _presonContext = personContext;
-            _qrService = qrservice;
-            _mailgunService = mailgunService;
+            _mailSettingsOptions = mailSettingsOptions;
         }
 
         [HttpGet("GetAppointmentsByCompanyId/{id}")]
@@ -127,7 +126,7 @@ namespace Medicina.Controllers
             return CreatedAtAction(nameof(GetAppointmentsByCompanyId), new { id = newAppointment.CompanyId }, newAppointment);
         }
 
-  
+
 
         [HttpGet("GetAppointmentsForDay")]
         public ActionResult<IEnumerable<object>> GetAppointmentsForDay([FromQuery] DateTime date)
@@ -138,6 +137,9 @@ namespace Medicina.Controllers
 
             return Ok(appointmentsForDay);
         }
+
+
+
         [HttpPost("pickup-reservations")]
         public async Task<ActionResult<PickupReservation>> CreatePickupReservation([FromBody] PickupReservation newReservation)
         {
@@ -151,8 +153,22 @@ namespace Medicina.Controllers
             await _reservationContext.SaveChangesAsync();
 
             // Generate QR code with reservation details
-            var reservationDetails = $"Reservation ID: {newReservation.Id}\nUser ID: {newReservation.UserId}\nCompany ID: {newReservation.CompanyId}\nAppointment Date: {newReservation.AppointmentDate}\nAppointment Time: {newReservation.AppointmentTime}";
-            var qrCodeImage = _mailgunService.GenerateQrCode(reservationDetails);
+            //var reservationDetails = $"Reservation ID: {newReservation.Id}\nUser ID: {newReservation.UserId}\nCompany ID: {newReservation.CompanyId}\nAppointment Date: {newReservation.AppointmentDate}\nAppointment Time: {newReservation.AppointmentTime}";
+
+            // Generate QR code with reservation details
+            var reservationDetails = new PickupReservation
+            {
+                Id = newReservation.Id,
+                UserId = newReservation.UserId,
+                CompanyId = newReservation.CompanyId,
+                AppointmentDate = newReservation.AppointmentDate,
+                AppointmentTime = newReservation.AppointmentTime,
+                EquipmentIds = newReservation.EquipmentIds // Assuming EquipmentIds are used to represent the list
+            };
+
+            var qrCodeService = new QRCodeService();
+            byte[] qrCodeBytes = qrCodeService.GenerateQrCode(reservationDetails);
+
 
             // Send email with QR code
             var user = await _userContext.Users.FindAsync(newReservation.UserId);
@@ -161,7 +177,11 @@ namespace Medicina.Controllers
                 var email = user.Email;
                 var subject = "Reservation Confirmation";
                 var message = $"Your reservation has been confirmed. Details:\n{reservationDetails}";
-                await _mailgunService.SendEmailWithQrCodeAsync(email, subject, message, qrCodeImage);
+
+                EmailService emailService = new EmailService(_mailSettingsOptions);
+                string body = "You have successfully reserved an appointment. Here is your QR code.";
+
+                await emailService.SendEmailWithQrCodeAsync(email, subject, body, reservationDetails);
             }
 
             return CreatedAtAction(nameof(GetPickupReservation), new { id = newReservation.Id }, newReservation);
